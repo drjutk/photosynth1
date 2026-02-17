@@ -1,0 +1,1616 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1">&lt;title&gt;Leaf Lab — Photosynthesis&lt;/title&gt;</p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&amp;family=DM+Sans:wght@400;500;600&amp;display=swap');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--green-deep: #1a4d2e;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--green-mid: #2d7a4a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--green-light: #5ec47a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--green-pale: #c8f0d4;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--sun-gold: #f5c542;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--sun-orange: #e8943a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--sky-blue: #87ceeb;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--water-blue: #3a8fd4;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--co2-purple: #9b7ec8;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--o2-coral: #f07070;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--glucose-amber: #e8a83e;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--soil-brown: #8b6914;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--soil-dark: #5a3e0a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--bg: #0d1f15;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--card-bg: rgba(20, 48, 35, 0.90);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--card-border: rgba(94, 196, 122, 0.15);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--text: #e8f5ec;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--text-dim: #8aab96;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--accent: #5ec47a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--carotene: #e8873a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--xanth: #d4c44a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--chla: #3a8a7a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--chlb: #8abd3a;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>* { margin: 0; padding: 0; box-sizing: border-box; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'DM Sans', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: var(--bg);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>min-height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>overflow-x: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* ===== TOP NAV / CHAPTER SELECTOR ===== */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.top-nav {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>position: sticky;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>z-index: 500;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(13, 31, 21, 0.95);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>backdrop-filter: blur(12px);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 1px solid var(--card-border);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 0 20px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>height: 56px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.nav-brand {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Fraunces', serif;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 800;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(135deg, var(--green-light), var(--sun-gold));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>-webkit-background-clip: text;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>-webkit-text-fill-color: transparent;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin-right: 28px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>white-space: nowrap;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: -0.3px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.nav-brand span {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.7rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 400;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>-webkit-text-fill-color: var(--text-dim);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin-left: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-tabs {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>overflow-x: auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>-webkit-overflow-scrolling: touch;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>scrollbar-width: none;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-tabs::-webkit-scrollbar { display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-tab {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 7px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 8px 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: transparent;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dim);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'DM Sans', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 10px 10px 0 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>white-space: nowrap;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>transition: all 0.25s;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 2px solid transparent;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-tab:hover {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(94, 196, 122, 0.06);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-tab.active {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--accent);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(94, 196, 122, 0.10);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-bottom-color: var(--accent);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.tab-icon {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.tab-num {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: inline-flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>height: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.65rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.06);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-tab.active .tab-num {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: var(--accent);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--bg);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-tab.locked {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0.35;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cursor: default;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-tab.locked:hover {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: transparent;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dim);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* ===== CHAPTER SECTIONS ===== */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-section {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>animation: chapterFade 0.35s ease;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.chapter-section.visible {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@keyframes chapterFade {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>from { opacity: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>to { opacity: 1; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* ===== SHARED CARD / BUTTON STYLES ===== */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: var(--card-bg);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--card-border);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>backdrop-filter: blur(8px);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card h2 {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Fraunces', serif;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--green-light);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card p, .card li {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.82rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.65;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dim);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card ul { padding-left: 18px; margin-top: 6px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card li { margin-bottom: 4px; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: inline-flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 10px 22px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'DM Sans', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.85rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>transition: all 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-primary { background: var(--accent); color: var(--bg); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-primary:hover { background: #7ad694; transform: translateY(-1px); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-secondary {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.08);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid rgba(255,255,255,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-secondary:hover { background: rgba(255,255,255,0.12); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn:disabled { opacity: 0.4; cursor: not-allowed; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.hint-badge {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: inline-block;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(245,197,66,0.15);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--sun-gold);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.7rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 3px 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.lab-canvas-wrap {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: #0a160f;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--card-border);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.lab-canvas-wrap canvas {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* ============================================================</p>
+<p class="p1"><span class="Apple-converted-space">     </span>ACT 0 STYLES</p>
+<p class="p1"><span class="Apple-converted-space">     </span>============================================================ */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#act0 .a0-header {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 18px 20px 8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#act0 .a0-header h1 {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Fraunces', serif;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 800;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.6rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--green-light);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#act0 .a0-header .subtitle {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.85rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dim);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin-top: 2px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.a0-layout {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 12px 24px 24px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>max-width: 1400px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>min-height: 600px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.a0-controls {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 260px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>flex-shrink: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.control-card {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: var(--card-bg);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--card-border);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.control-card h3 {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Fraunces', serif;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.85rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.control-card h3 .icon {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 22px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>height: 22px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sun-icon { background: rgba(245,197,66,0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.co2-icon { background: rgba(155,126,200,0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.water-icon { background: rgba(58,143,212,0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.temp-icon { background: rgba(240,112,112,0.2); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.slider-row { display: flex; align-items: center; gap: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.slider-row input[type="range"] {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>-webkit-appearance: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>appearance: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>height: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 3px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>outline: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.slider-row input[type="range"]::-webkit-slider-thumb {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>-webkit-appearance: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 18px; height: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 2px solid #fff;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 2px 6px rgba(0,0,0,0.3);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.slider-val { font-size: 0.8rem; font-weight: 600; min-width: 40px; text-align: right; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#sunSlider { background: linear-gradient(to right, #333, var(--sun-gold)); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#sunSlider::-webkit-slider-thumb { background: var(--sun-gold); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#co2Slider { background: linear-gradient(to right, #333, var(--co2-purple)); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#co2Slider::-webkit-slider-thumb { background: var(--co2-purple); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#waterSlider { background: linear-gradient(to right, #333, var(--water-blue)); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#waterSlider::-webkit-slider-thumb { background: var(--water-blue); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#tempSlider { background: linear-gradient(to right, #5588cc, #44aa55, #dd5555); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#tempSlider::-webkit-slider-thumb { background: var(--green-light); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.label-row { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-dim); margin-top: 3px; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.a0-plant {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>min-height: 550px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.a0-plant canvas {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.tooltip-overlay {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>top: 0; left: 0; right: 0; bottom: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>z-index: 10;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.hover-label {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(0,0,0,0.85);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.72rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 6px 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>max-width: 220px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.4;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>transition: opacity 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>z-index: 20;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid rgba(94,196,122,0.3);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.a0-info {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 280px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>flex-shrink: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.info-card {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: var(--card-bg);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--card-border);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.info-card h3 {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Fraunces', serif;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.85rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--green-light);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.equation-box {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(0,0,0,0.3);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>line-height: 2;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.eq-reactant { color: var(--co2-purple); font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.eq-water { color: var(--water-blue); font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.eq-light { color: var(--sun-gold); font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.eq-glucose { color: var(--glucose-amber); font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.eq-oxygen { color: var(--o2-coral); font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.eq-arrow { font-size: 1.2rem; margin: 0 6px; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.rate-bar-bg {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(0,0,0,0.3);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>height: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.rate-bar-fill {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(90deg, var(--green-mid), var(--green-light));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>transition: width 0.5s ease;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.rate-value { font-size: 0.85rem; font-weight: 600; color: var(--green-light); margin-top: 4px; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.output-row {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 6px 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 1px solid rgba(255,255,255,0.06);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.output-row:last-child { border-bottom: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.output-label { font-size: 0.78rem; display: flex; align-items: center; gap: 6px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.output-dot { width: 8px; height: 8px; border-radius: 50%; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.output-val { font-size: 0.85rem; font-weight: 600; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; padding: 3px 0; color: var(--text-dim); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* ============================================================</p>
+<p class="p1"><span class="Apple-converted-space">     </span>ACT 1 STYLES</p>
+<p class="p1"><span class="Apple-converted-space">     </span>============================================================ */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#act1 .a1-header {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 18px 20px 8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#act1 .a1-header h1 {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Fraunces', serif;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 800;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.6rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--green-light);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#act1 .a1-header .subtitle { font-size: 0.85rem; color: var(--text-dim); margin-top: 2px; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.step-bar {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 10px 24px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>flex-wrap: wrap;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.step-pip {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>gap: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 5px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.72rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.04);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid rgba(255,255,255,0.06);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dim);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>transition: all 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.step-pip.active { background: rgba(94,196,122,0.15); border-color: var(--accent); color: var(--accent); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.step-pip.done { background: rgba(94,196,122,0.08); border-color: rgba(94,196,122,0.3); color: rgba(94,196,122,0.6); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.step-num {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 18px; height: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.08);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.65rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.step-pip.active .step-num { background: var(--accent); color: var(--bg); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.step-pip.done .step-num { background: rgba(94,196,122,0.3); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.a1-main { max-width: 1100px; margin: 0 auto; padding: 0 24px 40px; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.step-panel { display: none; animation: fadeIn 0.4s ease; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.step-panel.visible { display: block; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.two-col { display: flex; gap: 24px; align-items: flex-start; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.col-visual { flex: 1; min-width: 300px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.col-text { width: 340px; flex-shrink: 0; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* Score badge */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.score-display {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>margin-left: auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.06);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--card-border);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 6px 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.78rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>white-space: nowrap;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>flex-shrink: 0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.score-display span { color: var(--sun-gold); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* Data table */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table th { background: rgba(94,196,122,0.1); color: var(--accent); padding: 8px; text-align: left; font-weight: 600; border-bottom: 1px solid var(--card-border); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table td { padding: 7px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-dim); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table input {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 60px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(0,0,0,0.3);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid rgba(255,255,255,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 4px 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.78rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font-family: inherit;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table input:focus { outline: none; border-color: var(--accent); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.data-table .color-dot {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: inline-block; width: 14px; height: 14px; border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>vertical-align: middle; margin-right: 6px; border: 1px solid rgba(255,255,255,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* Quiz */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.quiz-option {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: block; width: 100%; text-align: left;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: 10px 14px; margin-bottom: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 10px; color: var(--text); font-size: 0.82rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer; transition: all 0.2s; font-family: inherit;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.quiz-option:hover { background: rgba(94,196,122,0.1); border-color: var(--accent); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.quiz-option.correct { background: rgba(94,196,122,0.2); border-color: var(--accent); color: var(--accent); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.quiz-option.wrong { background: rgba(240,70,70,0.15); border-color: #f04646; color: #f07070; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.quiz-feedback { font-size: 0.8rem; padding: 10px 14px; border-radius: 10px; margin-top: 8px; line-height: 1.5; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.quiz-feedback.good { background: rgba(94,196,122,0.1); color: var(--green-light); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.quiz-feedback.bad { background: rgba(240,70,70,0.1); color: #f07070; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* UV overlay */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.uv-overlay {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>position: fixed; top: 0; left: 0; right: 0; bottom: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(10,0,30,0.95);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display: none; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>z-index: 600; cursor: pointer; flex-direction: column; gap: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.uv-overlay.show { display: flex; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.uv-test-tube {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width: 60px; height: 180px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border: 3px solid rgba(150,130,255,0.4);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 0 0 30px 30px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-top: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>position: relative; overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.uv-liquid {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>position: absolute; bottom: 0; left: 0; right: 0; height: 65%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background: radial-gradient(ellipse at center, #ff2020, #cc0000, #800020);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>animation: uvGlow 1.5s ease-in-out infinite alternate;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 0 0 27px 27px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@keyframes uvGlow {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>from { filter: brightness(1); box-shadow: 0 0 20px rgba(255,0,0,0.5); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>to { filter: brightness(1.4); box-shadow: 0 0 40px rgba(255,50,50,0.8); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.uv-caption { color: #cc99ff; font-size: 0.85rem; text-align: center; max-width: 350px; line-height: 1.6; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.uv-dismiss { color: rgba(255,255,255,0.4); font-size: 0.72rem; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width: 1100px) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.a0-layout { flex-direction: column; align-items: center; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.a0-controls, .a0-info { width: 100%; max-width: 600px; flex-direction: row; flex-wrap: wrap; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.a0-controls .control-card, .a0-info .info-card { flex: 1; min-width: 200px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.a0-plant { width: 100%; min-height: 450px; max-width: 700px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width: 800px) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.two-col { flex-direction: column; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.col-text { width: 100%; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.top-nav { flex-wrap: wrap; height: auto; padding: 10px 16px; gap: 8px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.nav-brand { margin-right: auto; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.score-display { order: 2; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.chapter-tabs { order: 3; width: 100%; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- ===== TOP NAVIGATION ===== --&gt;</p>
+<p class="p1">&lt;nav class="top-nav"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="nav-brand"&gt;🌿 Leaf Lab &lt;span&gt;Photosynthesis&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="chapter-tabs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="chapter-tab active" onclick="switchChapter(0)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="tab-num"&gt;0&lt;/span&gt; Interactive Review</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="chapter-tab" onclick="switchChapter(1)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="tab-num"&gt;1&lt;/span&gt; Chromatography</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="chapter-tab locked" title="Coming soon"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="tab-num"&gt;2&lt;/span&gt; Absorption Spectra 🔒</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="chapter-tab locked" title="Coming soon"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="tab-num"&gt;3&lt;/span&gt; Floating Leaf Disks 🔒</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="chapter-tab locked" title="Coming soon"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="tab-num"&gt;4&lt;/span&gt; Stomata 🔒</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="score-display"&gt;⭐ Score: &lt;span id="scoreVal"&gt;0&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;/nav&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- UV Overlay (shared) --&gt;</p>
+<p class="p1">&lt;div class="uv-overlay" id="uvOverlay" onclick="closeUV()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="uv-test-tube"&gt;&lt;div class="uv-liquid"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="uv-caption"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>Under UV light, the chlorophyll extract &lt;strong style="color:#ff6666"&gt;fluoresces red&lt;/strong&gt;.&lt;br&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>Chlorophyll absorbs UV energy, exciting electrons to a higher state. When they return to ground state, they release the extra energy as red fluorescence light (~680 nm).</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="uv-dismiss"&gt;Click anywhere to continue&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- ============================================================</p>
+<p class="p1"><span class="Apple-converted-space">     </span>ACT 0: INTERACTIVE PHOTOSYNTHESIS REVIEW</p>
+<p class="p1"><span class="Apple-converted-space">     </span>============================================================ --&gt;</p>
+<p class="p1">&lt;div class="chapter-section visible" id="act0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="a0-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;How Photosynthesis Works&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="subtitle"&gt;Adjust conditions and watch photosynthesis happen inside a living plant&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="a0-layout"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Controls --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="a0-controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="control-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3&gt;&lt;span class="icon sun-icon"&gt;☀&lt;/span&gt; Sunlight Intensity&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="slider-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="range" id="sunSlider" min="0" max="100" value="70"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="slider-val" id="sunVal"&gt;70%&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="label-row"&gt;&lt;span&gt;Dark&lt;/span&gt;&lt;span&gt;Bright&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="control-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3&gt;&lt;span class="icon co2-icon"&gt;◎&lt;/span&gt; CO₂ Concentration&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="slider-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="range" id="co2Slider" min="0" max="100" value="60"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="slider-val" id="co2Val"&gt;60%&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="label-row"&gt;&lt;span&gt;Low&lt;/span&gt;&lt;span&gt;High&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="control-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3&gt;&lt;span class="icon water-icon"&gt;💧&lt;/span&gt; Water Availability&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="slider-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="range" id="waterSlider" min="0" max="100" value="80"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="slider-val" id="waterVal"&gt;80%&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="label-row"&gt;&lt;span&gt;Dry&lt;/span&gt;&lt;span&gt;Wet&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="control-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3&gt;&lt;span class="icon temp-icon"&gt;🌡&lt;/span&gt; Temperature&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="slider-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="range" id="tempSlider" min="0" max="50" value="25"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="slider-val" id="tempVal"&gt;25°C&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="label-row"&gt;&lt;span&gt;0°C&lt;/span&gt;&lt;span&gt;50°C&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="control-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3&gt;🔑 Legend&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="legend-item"&gt;&lt;span class="legend-dot" style="background:var(--sun-gold)"&gt;&lt;/span&gt; Light photons&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="legend-item"&gt;&lt;span class="legend-dot" style="background:var(--co2-purple)"&gt;&lt;/span&gt; CO₂ molecules&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="legend-item"&gt;&lt;span class="legend-dot" style="background:var(--water-blue)"&gt;&lt;/span&gt; H₂O molecules&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="legend-item"&gt;&lt;span class="legend-dot" style="background:var(--o2-coral)"&gt;&lt;/span&gt; O₂ released&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="legend-item"&gt;&lt;span class="legend-dot" style="background:var(--glucose-amber)"&gt;&lt;/span&gt; Glucose produced&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Plant Canvas --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="a0-plant"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;canvas id="plantCanvas"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="tooltip-overlay" id="tooltipOverlay"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hover-label" id="hoverLabel"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Info Panel --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="a0-info"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="info-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3&gt;⚗ Chemical Equation&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="equation-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="eq-water"&gt;6H₂O&lt;/span&gt; + &lt;span class="eq-reactant"&gt;6CO₂&lt;/span&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="eq-arrow"&gt;↓&lt;/span&gt; &lt;span class="eq-light"&gt;sunlight energy&lt;/span&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="eq-glucose"&gt;C₆H₁₂O₆&lt;/span&gt; + &lt;span class="eq-oxygen"&gt;6O₂&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="info-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3&gt;⚡ Photosynthesis Rate&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="rate-bar-bg"&gt;&lt;div class="rate-bar-fill" id="rateFill" style="width:50%"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="rate-value" id="rateText"&gt;Moderate&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="info-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3&gt;📊 Current Output&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="output-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="output-label"&gt;&lt;span class="output-dot" style="background:var(--o2-coral)"&gt;&lt;/span&gt; O₂ released&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="output-val" id="o2Out" style="color:var(--o2-coral)"&gt;0&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="output-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="output-label"&gt;&lt;span class="output-dot" style="background:var(--glucose-amber)"&gt;&lt;/span&gt; Glucose made&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="output-val" id="glucOut" style="color:var(--glucose-amber)"&gt;0&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="output-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="output-label"&gt;&lt;span class="output-dot" style="background:var(--water-blue)"&gt;&lt;/span&gt; H₂O used&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="output-val" id="waterOut" style="color:var(--water-blue)"&gt;0&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="output-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="output-label"&gt;&lt;span class="output-dot" style="background:var(--co2-purple)"&gt;&lt;/span&gt; CO₂ used&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="output-val" id="co2Out" style="color:var(--co2-purple)"&gt;0&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="info-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3&gt;💡 What's Happening&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p id="infoText" style="font-size:0.78rem; line-height:1.6; color:var(--text-dim);"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>Adjust the sliders to change conditions. Watch how the plant responds — light photons strike the leaf, CO₂ enters through stomata, and water travels up from the roots.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- ============================================================</p>
+<p class="p1"><span class="Apple-converted-space">     </span>ACT 1: CHROMATOGRAPHY</p>
+<p class="p1"><span class="Apple-converted-space">     </span>============================================================ --&gt;</p>
+<p class="p1">&lt;div class="chapter-section" id="act1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="a1-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Exercise 1: Separation of Plant Pigments&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="subtitle"&gt;Extract, separate, and identify pigments from spinach leaves using chromatography&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="step-bar" id="stepBar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-pip active" data-step="0"&gt;&lt;span class="step-num"&gt;1&lt;/span&gt; Extract&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-pip" data-step="1"&gt;&lt;span class="step-num"&gt;2&lt;/span&gt; UV Light&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-pip" data-step="2"&gt;&lt;span class="step-num"&gt;3&lt;/span&gt; Setup Paper&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-pip" data-step="3"&gt;&lt;span class="step-num"&gt;4&lt;/span&gt; Run Chromatography&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-pip" data-step="4"&gt;&lt;span class="step-num"&gt;5&lt;/span&gt; Measure &amp; Calculate&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-pip" data-step="5"&gt;&lt;span class="step-num"&gt;6&lt;/span&gt; Review Questions&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="a1-main"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- STEP 0: Extraction --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-panel visible" id="step0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="two-col"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-visual"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="lab-canvas-wrap"&gt;&lt;canvas id="extractCanvas" width="600" height="440"&gt;&lt;/canvas&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-text"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="hint-badge"&gt;👆 Click to interact&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Pigment Extraction&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li id="ext-step1"&gt;&lt;strong&gt;Step 1:&lt;/strong&gt; Click the spinach leaves to tear them into the mortar&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li id="ext-step2" style="opacity:0.4"&gt;&lt;strong&gt;Step 2:&lt;/strong&gt; Click the mortar to grind (8 times)&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li id="ext-step3" style="opacity:0.4"&gt;&lt;strong&gt;Step 3:&lt;/strong&gt; Click the acetone bottle to add solvent&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li id="ext-step4" style="opacity:0.4"&gt;&lt;strong&gt;Step 4:&lt;/strong&gt; Click the test tube to pour off the extract&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Why This Works&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Quartz sand breaks open plant cells, releasing pigment molecules from chloroplasts. Acetone dissolves the nonpolar pigments, creating a concentrated green extract.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="btn-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-primary" id="extNextBtn" disabled onclick="a1GoStep(1)"&gt;Continue to UV Test →&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- STEP 1: UV --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-panel" id="step1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="two-col"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-visual"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card" style="text-align:center; padding:40px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;🔬 UV Light Test&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p style="margin-bottom:20px;"&gt;Examine the extract under UV light. Chlorophyll fluoresces an unexpected color!&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-primary" onclick="showUV()"&gt;🔦 Turn on UV Light&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card" id="uvQuestion" style="display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Quick Check&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p style="margin-bottom:12px;"&gt;Why does the green chlorophyll extract fluoresce red under UV light?&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="quiz-option" onclick="answerUV(this,false)"&gt;UV light destroys the chlorophyll, revealing red pigments beneath&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="quiz-option" onclick="answerUV(this,true)"&gt;Chlorophyll absorbs UV energy, and re-emits it as lower-energy red light as electrons return to ground state&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="quiz-option" onclick="answerUV(this,false)"&gt;The acetone solvent changes color under UV radiation&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="quiz-feedback" id="uvFeedback" style="display:none"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-text"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;About Fluorescence&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Fluorescence occurs when a molecule absorbs light at one wavelength and emits it at a longer wavelength. In isolated extract, there's no photosystem to receive the energy, so it's released as red fluorescence (~680 nm).&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="btn-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-secondary" onclick="a1GoStep(0)"&gt;← Back&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-primary" id="uvNextBtn" disabled onclick="a1GoStep(2)"&gt;Continue to Paper Setup →&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- STEP 2: Setup Paper --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-panel" id="step2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="two-col"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-visual"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="lab-canvas-wrap"&gt;&lt;canvas id="paperCanvas" width="600" height="440"&gt;&lt;/canvas&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-text"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="hint-badge"&gt;👆 Click to perform each step&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Prepare Chromatography Paper&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li id="paper-step1"&gt;&lt;strong&gt;Step 1:&lt;/strong&gt; Click to draw a pencil line 1.5 cm from bottom&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li id="paper-step2" style="opacity:0.4"&gt;&lt;strong&gt;Step 2:&lt;/strong&gt; Click along the line to apply pigment dots (8×)&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li id="paper-step3" style="opacity:0.4"&gt;&lt;strong&gt;Step 3:&lt;/strong&gt; Click to roll paper and place in jar&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Key Concepts&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;strong&gt;Stationary phase:&lt;/strong&gt; Paper (cellulose) — very polar.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p style="margin-top:6px;"&gt;&lt;strong&gt;Mobile phase:&lt;/strong&gt; Solvent (petroleum ether + acetone) — nonpolar.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p style="margin-top:6px;"&gt;"Like dissolves like." Nonpolar pigments travel farther with the nonpolar solvent. Polar pigments stick to the polar paper.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="btn-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-secondary" onclick="a1GoStep(1)"&gt;← Back&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-primary" id="paperNextBtn" disabled onclick="a1GoStep(3)"&gt;Run Chromatography →&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- STEP 3: Run Chromatography --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-panel" id="step3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="two-col"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-visual"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="lab-canvas-wrap"&gt;&lt;canvas id="chromCanvas" width="600" height="500"&gt;&lt;/canvas&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="btn-row" style="justify-content:center; margin-top:12px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-primary" id="startChromBtn" onclick="startChromatography()"&gt;▶ Start Separation&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-text"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Chromatography in Progress&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p id="chromStatus"&gt;Click "Start Separation" to begin. Watch the solvent move up the paper, carrying pigments at different rates.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="chromLegend" style="margin-top:14px; display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;p style="font-size:0.75rem; color:var(--accent); font-weight:600; margin-bottom:6px;"&gt;Pigment Bands (top → bottom):&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:0.78rem;color:var(--text-dim)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#e8873a"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>β-carotene — least polar, travels farthest</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:0.78rem;color:var(--text-dim)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#d4c44a"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Xanthophylls — slightly polar</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:0.78rem;color:var(--text-dim)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#3a8a7a"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Chlorophyll a — moderately polar</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:0.78rem;color:var(--text-dim)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#8abd3a"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Chlorophyll b — most polar, stays lowest</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;What's Happening&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;The nonpolar solvent moves upward by capillary action. β-carotene (most nonpolar) travels farthest. Chlorophyll b (most polar) sticks to the cellulose and barely moves.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="btn-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-secondary" onclick="a1GoStep(2)"&gt;← Back&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-primary" id="chromNextBtn" disabled onclick="a1GoStep(4)"&gt;Measure Results →&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- STEP 4: Measure &amp; Calculate Rf --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-panel" id="step4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="two-col"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-visual"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="lab-canvas-wrap"&gt;&lt;canvas id="measureCanvas" width="600" height="500"&gt;&lt;/canvas&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p style="font-size:0.72rem;color:var(--text-dim);margin-top:6px;text-align:center;"&gt;Band distances are labeled on the right. Use them to calculate Rf.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="col-text"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Calculate R&lt;sub&gt;f&lt;/sub&gt; Values&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p style="margin-bottom:8px;"&gt;R&lt;sub&gt;f&lt;/sub&gt; = distance pigment traveled ÷ distance solvent front traveled&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p style="font-size:0.75rem;color:var(--accent);margin-bottom:10px;"&gt;Solvent front distance: &lt;strong id="solventDist"&gt;8.5&lt;/strong&gt; cm&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;table class="data-table"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr&gt;&lt;th&gt;Pigment&lt;/th&gt;&lt;th&gt;Color&lt;/th&gt;&lt;th&gt;Dist (cm)&lt;/th&gt;&lt;th&gt;Your R&lt;sub&gt;f&lt;/sub&gt;&lt;/th&gt;&lt;th&gt;✓&lt;/th&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;&lt;span class="color-dot" style="background:#e8873a"&gt;&lt;/span&gt;β-carotene&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;Orange&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td id="dist-bc"&gt;8.1&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;&lt;input type="text" id="rf-bc" placeholder="?.??"&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td id="check-bc"&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;&lt;span class="color-dot" style="background:#d4c44a"&gt;&lt;/span&gt;Xanthophylls&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;Yellow&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td id="dist-xa"&gt;5.8&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;&lt;input type="text" id="rf-xa" placeholder="?.??"&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td id="check-xa"&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;&lt;span class="color-dot" style="background:#3a8a7a"&gt;&lt;/span&gt;Chlorophyll a&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;Blue-green&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td id="dist-ca"&gt;4.2&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;&lt;input type="text" id="rf-ca" placeholder="?.??"&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td id="check-ca"&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;&lt;span class="color-dot" style="background:#8abd3a"&gt;&lt;/span&gt;Chlorophyll b&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;Yellow-green&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td id="dist-cb"&gt;3.0&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td&gt;&lt;input type="text" id="rf-cb" placeholder="?.??"&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;td id="check-cb"&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="btn-row"&gt;&lt;button class="btn btn-primary" onclick="checkRfValues()"&gt;Check Answers&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="quiz-feedback" id="rfFeedback" style="display:none;margin-top:10px;"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="btn-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-secondary" onclick="a1GoStep(3)"&gt;← Back&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn btn-primary" id="measureNextBtn" disabled onclick="a1GoStep(5)"&gt;Review Questions →&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- STEP 5: Review Questions --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="step-panel" id="step5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card" style="max-width:700px; margin:0 auto;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;📝 Review Questions&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="quizContainer"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="btn-row" style="margin-top:20px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn btn-secondary" onclick="a1GoStep(4)"&gt;← Back&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn btn-primary" id="finishBtn" style="display:none;" onclick="showCompletion()"&gt;See Final Score 🏆&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card" id="completionCard" style="display:none; max-width:700px; margin:20px auto 0; text-align:center;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 style="font-size:1.5rem;"&gt;🎉 Act 1 Complete!&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p style="font-size:1.1rem; margin:12px 0;"&gt;Final Score: &lt;strong style="color:var(--sun-gold);" id="finalScore"&gt;0&lt;/strong&gt; / &lt;span id="maxScore"&gt;0&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="starRating" style="font-size:2rem; margin:8px 0;"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p style="margin-top:10px;"&gt;You've extracted pigments, separated them with chromatography, calculated Rf values, and demonstrated understanding of polarity and pigment behavior.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- ============================================================</p>
+<p class="p1"><span class="Apple-converted-space">     </span>ALL JAVASCRIPT</p>
+<p class="p1"><span class="Apple-converted-space">     </span>============================================================ --&gt;</p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">// ================================================================</p>
+<p class="p1">// GLOBAL: Chapter switching &amp; Score</p>
+<p class="p1">// ================================================================</p>
+<p class="p1">let activeChapter = 0;</p>
+<p class="p1">let score = 0;</p>
+<p class="p1">let maxPossible = 0;</p>
+<p class="p1">let a0Running = true;</p>
+<p class="p2"><br></p>
+<p class="p1">function switchChapter(n) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Ignore locked tabs</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const tabs = document.querySelectorAll('.chapter-tab');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (tabs[n].classList.contains('locked')) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>activeChapter = n;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>tabs.forEach((t, i) =&gt; t.classList.toggle('active', i === n));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.chapter-section').forEach((s, i) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>s.classList.toggle('visible', i === n);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Running = (n === 0);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (n === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Resize();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Frame();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (n === 1) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>drawExtraction();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>drawPaper();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>window.scrollTo(0, 0);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function addScore(pts) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>score += pts;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>maxPossible += pts;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('scoreVal').textContent = score;</p>
+<p class="p1">}</p>
+<p class="p1">function addMaxOnly(pts) { maxPossible += pts; }</p>
+<p class="p2"><br></p>
+<p class="p1">// ================================================================</p>
+<p class="p1">// ACT 0: INTERACTIVE PHOTOSYNTHESIS</p>
+<p class="p1">// ================================================================</p>
+<p class="p1">const a0Canvas = document.getElementById('plantCanvas');</p>
+<p class="p1">const a0Ctx = a0Canvas.getContext('2d');</p>
+<p class="p1">const hoverLabel = document.getElementById('hoverLabel');</p>
+<p class="p2"><br></p>
+<p class="p1">function a0Resize() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const wrap = a0Canvas.parentElement;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Canvas.width = wrap.clientWidth * devicePixelRatio;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Canvas.height = wrap.clientHeight * devicePixelRatio;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Canvas.style.width = wrap.clientWidth + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Canvas.style.height = wrap.clientHeight + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);</p>
+<p class="p1">}</p>
+<p class="p1">a0Resize();</p>
+<p class="p1">window.addEventListener('resize', () =&gt; { if (activeChapter === 0) a0Resize(); });</p>
+<p class="p2"><br></p>
+<p class="p1">const a0W = () =&gt; a0Canvas.width / devicePixelRatio;</p>
+<p class="p1">const a0H = () =&gt; a0Canvas.height / devicePixelRatio;</p>
+<p class="p2"><br></p>
+<p class="p1">let a0sun = 70, a0co2 = 60, a0water = 80, a0temp = 25;</p>
+<p class="p1">let a0rate = 0, a0time = 0;</p>
+<p class="p1">let a0totalO2 = 0, a0totalGluc = 0, a0totalWater = 0, a0totalCO2 = 0;</p>
+<p class="p1">let a0photons = [], a0co2P = [], a0waterP = [], a0o2P = [], a0glucP = [];</p>
+<p class="p2"><br></p>
+<p class="p1">const sunSlider = document.getElementById('sunSlider');</p>
+<p class="p1">const co2Slider = document.getElementById('co2Slider');</p>
+<p class="p1">const waterSlider = document.getElementById('waterSlider');</p>
+<p class="p1">const tempSlider = document.getElementById('tempSlider');</p>
+<p class="p2"><br></p>
+<p class="p1">function a0UpdateSliders() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0sun = +sunSlider.value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0co2 = +co2Slider.value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0water = +waterSlider.value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0temp = +tempSlider.value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('sunVal').textContent = a0sun + '%';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('co2Val').textContent = a0co2 + '%';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('waterVal').textContent = a0water + '%';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('tempVal').textContent = a0temp + '°C';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0UpdateRate();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0UpdateInfo();</p>
+<p class="p1">}</p>
+<p class="p1">[sunSlider, co2Slider, waterSlider, tempSlider].forEach(s =&gt; s.addEventListener('input', a0UpdateSliders));</p>
+<p class="p2"><br></p>
+<p class="p1">function a0UpdateRate() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const sf = a0sun/100, cf = a0co2/100, wf = a0water/100;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let tf;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (a0temp &lt; 5) tf = 0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (a0temp &lt;= 25) tf = (a0temp-5)/20;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (a0temp &lt;= 35) tf = 1;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (a0temp &lt;= 45) tf = (45-a0temp)/10;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else tf = 0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>tf = Math.max(0, tf);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0rate = Math.min(sf, cf, wf) * tf;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const pct = Math.round(a0rate * 100);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('rateFill').style.width = pct + '%';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let label = 'None';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (pct &gt; 80) label = 'Very High';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (pct &gt; 55) label = 'High';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (pct &gt; 30) label = 'Moderate';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (pct &gt; 10) label = 'Low';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (pct &gt; 0) label = 'Very Low';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('rateText').textContent = label + ' (' + pct + '%)';</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function a0UpdateInfo() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById('infoText');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (a0sun === 0) el.textContent = "No light → no photosynthesis. Light reactions need photons to excite chlorophyll electrons. The plant can only perform cellular respiration.";</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (a0rate &lt; 0.05) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (a0temp &lt; 5 || a0temp &gt; 45) el.textContent = "Extreme temperature! Enzymes (like RuBisCO) denature at high temps and slow near freezing. Reactions have stopped.";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>else if (a0water &lt; 10) el.textContent = "Without water, light reactions stall. H₂O is split for electrons and H⁺ ions. Stomata also close in drought, blocking CO₂.";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>else el.textContent = "Conditions too poor for photosynthesis. The plant survives on cellular respiration alone.";</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else if (a0rate &lt; 0.3) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const lim = Math.min(a0sun/100, a0co2/100, a0water/100);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (lim === a0sun/100) el.textContent = "Light is limiting. Fewer photons strike chlorophyll in the thylakoids → fewer excited electrons → slow light reactions.";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>else if (lim === a0co2/100) el.textContent = "CO₂ is limiting. The Calvin cycle needs CO₂ to fix carbon into G3P. CO₂ enters through stomata on the leaf.";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>else el.textContent = "Water is limiting. H₂O is split in the light reactions. Without it, the process stalls and stomata close.";</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else if (a0rate &gt; 0.8) el.textContent = "Full speed! Photons → chlorophyll excitation → electron transport → ATP &amp; NADPH → Calvin cycle fixes CO₂ → glucose. O₂ is released.";</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else el.textContent = "Steady photosynthesis. Light captured by chlorophyll → water split → O₂ released → CO₂ fixed into glucose. Adjust sliders to explore limiting factors.";</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">class A0Particle {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>constructor(x,y,vx,vy,color,size,life) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.x=x;this.y=y;this.vx=vx;this.vy=vy;this.color=color;this.size=size||3;this.life=life||200;this.maxLife=this.life;this.alive=true;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>update() { this.x+=this.vx;this.y+=this.vy;this.life--;if(this.life&lt;=0)this.alive=false; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>draw(c) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.globalAlpha=Math.min(1,this.life/(this.maxLife*0.3));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle=this.color;c.beginPath();c.arc(this.x,this.y,this.size,0,Math.PI*2);c.fill();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.globalAlpha=1;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">const a0Hotspots = [];</p>
+<p class="p1">function a0SetupHotspots() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const w=a0W(),h=a0H();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Hotspots.length=0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Hotspots.push({x:w*0.3,y:h*0.22,w:w*0.4,h:h*0.13,text:"🍃 Leaf — Primary photosynthesis site. Mesophyll cells packed with chloroplasts. Broad shape maximizes light capture."});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Hotspots.push({x:w*0.35,y:h*0.40,w:w*0.30,h:h*0.20,text:"🔬 Chloroplast — Thylakoids (light reactions) and stroma (Calvin cycle) work together to convert light energy to glucose."});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Hotspots.push({x:w*0.15,y:h*0.32,w:w*0.12,h:h*0.08,text:"🫁 Stomata — Tiny pores on leaf surface. CO₂ enters, O₂ exits. Guard cells control opening."});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Hotspots.push({x:w*0.35,y:h*0.80,w:w*0.30,h:h*0.15,text:"🌱 Roots — Absorb H₂O and minerals from soil. Water travels up through xylem to leaves."});</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">a0Canvas.addEventListener('mousemove', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const rect=a0Canvas.getBoundingClientRect();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const mx=e.clientX-rect.left, my=e.clientY-rect.top;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let found=false;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>for(const h of a0Hotspots){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(mx&gt;=h.x&amp;&amp;mx&lt;=h.x+h.w&amp;&amp;my&gt;=h.y&amp;&amp;my&lt;=h.y+h.h){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>hoverLabel.style.opacity='1';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>hoverLabel.style.left=Math.min(mx+12,a0W()-230)+'px';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>hoverLabel.style.top=(my-10)+'px';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>hoverLabel.textContent=h.text;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>found=true;break;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!found)hoverLabel.style.opacity='0';</p>
+<p class="p1">});</p>
+<p class="p1">a0Canvas.addEventListener('mouseleave',()=&gt;{hoverLabel.style.opacity='0';});</p>
+<p class="p2"><br></p>
+<p class="p1">function a0DrawSky(w,h) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const b=a0sun/100;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const grad=a0Ctx.createLinearGradient(0,0,0,h*0.55);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grad.addColorStop(0,`rgba(${30+100*b},${60+140*b},${100+155*b},1)`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grad.addColorStop(1,`rgba(${50+80*b},${90+120*b},${80+100*b},1)`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillStyle=grad;a0Ctx.fillRect(0,0,w,h*0.55);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(a0sun&gt;0){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const sx=w*0.82,sy=h*0.10,sr=20+a0sun*0.15;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const glow=a0Ctx.createRadialGradient(sx,sy,0,sx,sy,sr*4);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>glow.addColorStop(0,`rgba(255,220,80,${0.3*b})`);glow.addColorStop(1,'rgba(255,220,80,0)');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.fillStyle=glow;a0Ctx.fillRect(sx-sr*5,sy-sr*5,sr*10,sr*10);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.fillStyle=`rgba(255,230,100,${0.5+0.5*b})`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.beginPath();a0Ctx.arc(sx,sy,sr,0,Math.PI*2);a0Ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function a0DrawSoil(w,h) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const gy=h*0.63;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const grad=a0Ctx.createLinearGradient(0,gy,0,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grad.addColorStop(0,'#5a7a4a');grad.addColorStop(0.05,'#6b5520');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grad.addColorStop(0.3,'#5a3e0a');grad.addColorStop(1,'#3a2505');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillStyle=grad;a0Ctx.fillRect(0,gy,w,h-gy);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.strokeStyle='#4a8a3a';a0Ctx.lineWidth=1.5;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>for(let i=0;i&lt;40;i++){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const gx=(i/40)*w+Math.sin(i*7)*10;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.beginPath();a0Ctx.moveTo(gx,gy);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.quadraticCurveTo(gx+Math.sin(i*3)*5,gy-8-Math.random()*6,gx+Math.sin(i*5)*3,gy-14-Math.random()*4);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function a0DrawPlant(w,h) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const bx=w*0.50,by=h*0.63;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.strokeStyle='#3a7a30';a0Ctx.lineWidth=6;a0Ctx.lineCap='round';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.beginPath();a0Ctx.moveTo(bx,by);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.quadraticCurveTo(bx-5,by-60,bx-2,by-130);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.quadraticCurveTo(bx,by-200,bx+3,by-250);a0Ctx.stroke();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const gv=Math.round(120+a0rate*80);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const lc=`rgb(40,${gv},50)`,ll=`rgb(70,${gv+30},80)`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function leaf(cx,cy,a,sx,sy){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.save();a0Ctx.translate(cx,cy);a0Ctx.rotate(a);a0Ctx.scale(sx,sy);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const lg=a0Ctx.createLinearGradient(-40,0,40,0);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>lg.addColorStop(0,lc);lg.addColorStop(0.5,ll);lg.addColorStop(1,lc);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.fillStyle=lg;a0Ctx.beginPath();a0Ctx.moveTo(0,0);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.bezierCurveTo(30,-20,55,-30,70,-10);a0Ctx.bezierCurveTo(55,5,30,10,0,0);a0Ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.strokeStyle='rgba(30,80,30,0.4)';a0Ctx.lineWidth=0.8;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.beginPath();a0Ctx.moveTo(2,-1);a0Ctx.lineTo(58,-6);a0Ctx.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.restore();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>leaf(bx-5,by-240,-0.5,1.6,1.6);leaf(bx+5,by-230,0.3,1.4,1.4);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>leaf(bx-8,by-200,-0.8,1.3,1.2);leaf(bx+8,by-190,0.6,1.2,1.1);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>leaf(bx-3,by-160,-1.0,1.0,1.0);leaf(bx+6,by-150,0.9,1.0,0.9);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Roots</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.strokeStyle='#7a6530';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>[{dx:-60,dy:80,cx:-20,cy:40},{dx:-40,dy:100,cx:-10,cy:50},{dx:0,dy:110,cx:5,cy:55},{dx:40,dy:95,cx:15,cy:48},{dx:55,dy:75,cx:25,cy:38}].forEach(r=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.lineWidth=2+Math.random();a0Ctx.beginPath();a0Ctx.moveTo(bx,by+5);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.quadraticCurveTo(bx+r.cx,by+5+r.cy,bx+r.dx,by+5+r.dy);a0Ctx.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Stomata</p>
+<p class="p1"><span class="Apple-converted-space">  </span>for(let i=0;i&lt;3;i++){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const sx=bx-50+15+i*25,sy=by-245+8+Math.sin(i)*4,op=a0rate*3;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.strokeStyle='rgba(30,100,40,0.6)';a0Ctx.lineWidth=1.5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.beginPath();a0Ctx.ellipse(sx-2,sy,4,2+op,-0.2,0,Math.PI*2);a0Ctx.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0Ctx.beginPath();a0Ctx.ellipse(sx+2,sy,4,2+op,0.2,0,Math.PI*2);a0Ctx.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(a0rate&gt;0.05){a0Ctx.fillStyle='rgba(0,0,0,0.3)';a0Ctx.beginPath();a0Ctx.ellipse(sx,sy,1+op*0.5,op,0,0,Math.PI*2);a0Ctx.fill();}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function a0RoundRect(c,x,y,w,h,r){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.lineTo(x+r,y+h);c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function a0DrawArrow(x1,y1,x2,y2,color,label){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const c=a0Ctx;c.strokeStyle=color;c.lineWidth=1.2;c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const ang=Math.atan2(y2-y1,x2-x1);c.fillStyle=color;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.beginPath();c.moveTo(x2,y2);c.lineTo(x2-6*Math.cos(ang-0.4),y2-6*Math.sin(ang-0.4));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.lineTo(x2-6*Math.cos(ang+0.4),y2-6*Math.sin(ang+0.4));c.closePath();c.fill();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(label){c.font='600 7px "DM Sans",sans-serif';c.fillText(label,(x1+x2)/2+3,(y1+y2)/2-3);}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function a0DrawChloroplast(w,h) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const cx=w*0.50,cy=h*0.48,bw=w*0.28,bh=h*0.18,bx=cx-bw/2,by=cy-bh/2;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.strokeStyle='rgba(94,196,122,0.3)';a0Ctx.lineWidth=1;a0Ctx.setLineDash([4,4]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.beginPath();a0Ctx.moveTo(cx,by);a0Ctx.lineTo(cx-20,by-40);a0Ctx.stroke();a0Ctx.setLineDash([]);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillStyle='rgba(10,40,25,0.88)';a0Ctx.strokeStyle='rgba(94,196,122,0.35)';a0Ctx.lineWidth=1.5;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0RoundRect(a0Ctx,bx,by,bw,bh,12);a0Ctx.fill();a0Ctx.stroke();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillStyle='rgba(94,196,122,0.7)';a0Ctx.font='600 10px "DM Sans",sans-serif';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillText('CHLOROPLAST',bx+10,by+16);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const grana=[{x:bx+bw*0.18,y:by+bh*0.45},{x:bx+bw*0.42,y:by+bh*0.50},{x:bx+bw*0.66,y:by+bh*0.42}];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.strokeStyle='rgba(94,196,122,0.25)';a0Ctx.lineWidth=1;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.beginPath();a0Ctx.ellipse(cx,cy+bh*0.05,bw*0.42,bh*0.38,0,0,Math.PI*2);a0Ctx.stroke();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillStyle='rgba(200,240,210,0.3)';a0Ctx.font='500 8px "DM Sans",sans-serif';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillText('stroma (Calvin cycle)',bx+bw*0.50,by+bh*0.88);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>grana.forEach((g,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>for(let d=0;d&lt;4;d++){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const dy=g.y+d*7;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>a0Ctx.fillStyle=a0rate&gt;0.3?`rgba(94,196,122,${0.15+0.2*Math.sin(a0time*0.05+i+d)})`:'rgba(60,100,60,0.2)';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>a0Ctx.beginPath();a0Ctx.ellipse(g.x,dy,18,4,0,0,Math.PI*2);a0Ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>a0Ctx.strokeStyle='rgba(94,196,122,0.4)';a0Ctx.lineWidth=0.5;a0Ctx.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillStyle='rgba(245,197,66,0.6)';a0Ctx.font='500 7px "DM Sans",sans-serif';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillText('thylakoids',grana[0].x-14,grana[0].y-10);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.fillText('(light rxns)',grana[0].x-14,grana[0].y-2);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(a0rate&gt;0.1){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const aa=0.3+a0rate*0.5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0DrawArrow(bx+8,cy+bh*0.1,grana[0].x-20,grana[0].y,`rgba(58,143,212,${aa})`,'H₂O');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0DrawArrow(grana[1].x,by+4,grana[1].x,grana[1].y-14,`rgba(245,197,66,${aa})`,'light');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0DrawArrow(bx+bw-8,cy+bh*0.15,grana[2].x+22,grana[2].y+10,`rgba(155,126,200,${aa})`,'CO₂');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0DrawArrow(grana[0].x,grana[0].y+20,bx+10,by+bh-8,`rgba(240,112,112,${aa})`,'O₂');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0DrawArrow(grana[2].x+10,grana[2].y+22,bx+bw-12,by+bh-8,`rgba(232,168,62,${aa})`,'C₆H₁₂O₆');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function a0SpawnParticles(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const w=a0W(),h=a0H(),bx=w*0.50,by=h*0.63;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(a0sun&gt;5&amp;&amp;Math.random()&lt;a0sun/120){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0photons.push(new A0Particle(bx-80+Math.random()*160,-5,(Math.random()-0.5)*0.3,1.5+Math.random(),'#f5c542',2.5+Math.random()*1.5,200));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(a0co2&gt;5&amp;&amp;Math.random()&lt;a0co2/300){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0co2P.push(new A0Particle(5+Math.random()*30,by-200-Math.random()*60,0.6+Math.random()*0.4,(Math.random()-0.5)*0.3,'#9b7ec8',3,250));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(a0water&gt;5&amp;&amp;Math.random()&lt;a0water/250){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0waterP.push(new A0Particle(bx-5+Math.random()*10,by+40+Math.random()*30,(Math.random()-0.5)*0.2,-0.8-Math.random()*0.5,'#3a8fd4',2.5,300));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(a0rate&gt;0.05&amp;&amp;Math.random()&lt;a0rate*0.4){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0o2P.push(new A0Particle(bx+(Math.random()-0.5)*60,by-220-Math.random()*30,(Math.random()-0.5)*0.5,-0.7-Math.random()*0.5,'#f07070',2.5+Math.random(),180));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0totalO2+=0.1;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(a0rate&gt;0.1&amp;&amp;Math.random()&lt;a0rate*0.12){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0glucP.push(new A0Particle(bx+(Math.random()-0.5)*30,by-170+Math.random()*20,(Math.random()-0.5)*0.2,0.2+Math.random()*0.3,'#e8a83e',3.5,160));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a0totalGluc+=0.05;a0totalWater+=0.3;a0totalCO2+=0.15;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function a0Frame() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!a0Running) return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const w=a0W(),h=a0H();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0time++;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0Ctx.clearRect(0,0,w,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0DrawSky(w,h);a0DrawSoil(w,h);a0DrawPlant(w,h);a0DrawChloroplast(w,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0SpawnParticles();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>[a0photons,a0co2P,a0waterP,a0o2P,a0glucP].forEach(arr=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>for(let i=arr.length-1;i&gt;=0;i--){arr[i].update();if(!arr[i].alive)arr.splice(i,1);}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>arr.forEach(p=&gt;p.draw(a0Ctx));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>a0SetupHotspots();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(a0time%10===0){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('o2Out').textContent=Math.floor(a0totalO2);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('glucOut').textContent=Math.floor(a0totalGluc);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('waterOut').textContent=Math.floor(a0totalWater);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('co2Out').textContent=Math.floor(a0totalCO2);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>requestAnimationFrame(a0Frame);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">a0UpdateSliders();</p>
+<p class="p1">a0Frame();</p>
+<p class="p2"><br></p>
+<p class="p1">// ================================================================</p>
+<p class="p1">// ACT 1: CHROMATOGRAPHY</p>
+<p class="p1">// ================================================================</p>
+<p class="p1">function a1GoStep(n) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.step-panel').forEach(p =&gt; p.classList.remove('visible'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('step' + n).classList.add('visible');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.step-pip').forEach((p, i) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>p.classList.remove('active');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (i &lt; n) p.classList.add('done'); else p.classList.remove('done');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (i === n) p.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (n === 3) drawChromInitial();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (n === 4) drawMeasureCanvas();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (n === 5) initQuiz();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>window.scrollTo(0, 0);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// --- Extraction ---</p>
+<p class="p1">const extCanvas = document.getElementById('extractCanvas');</p>
+<p class="p1">const extCtx = extCanvas.getContext('2d');</p>
+<p class="p1">let extPhase = 0, grindCount = 0, grindPhase = 0;</p>
+<p class="p2"><br></p>
+<p class="p1">function drawExtraction() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const c = extCtx, w = extCanvas.width, h = extCanvas.height;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.clearRect(0,0,w,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#1a2a20';c.fillRect(0,0,w,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const bg=c.createLinearGradient(0,h*0.75,0,h);bg.addColorStop(0,'#3a3530');bg.addColorStop(1,'#2a2520');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle=bg;c.fillRect(0,h*0.72,w,h*0.28);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.strokeStyle='#4a4540';c.lineWidth=1;c.beginPath();c.moveTo(0,h*0.72);c.lineTo(w,h*0.72);c.stroke();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const mx=200,my=h*0.62;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Mortar</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#888';c.beginPath();c.ellipse(mx,my+20,70,20,0,0,Math.PI*2);c.fill();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#aaa';c.beginPath();c.ellipse(mx,my,70,25,0,Math.PI,Math.PI*2);c.fill();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#999';c.beginPath();c.ellipse(mx,my,70,25,0,0,Math.PI);c.fill();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#666';c.beginPath();c.ellipse(mx,my,55,18,0,0,Math.PI*2);c.fill();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(extPhase&gt;=1){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const gi=Math.min(1,grindCount/8);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle=`rgba(40,${100+gi*80},50,${0.5+gi*0.5})`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.beginPath();c.ellipse(mx,my,48*(0.4+gi*0.6),14*(0.4+gi*0.6),0,0,Math.PI*2);c.fill();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='rgba(200,180,140,0.5)';for(let i=0;i&lt;12;i++)c.fillRect(mx-30+Math.sin(i*5)*25,my-8+Math.cos(i*3)*8,2,2);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(extPhase&gt;=2){c.fillStyle='rgba(30,120,50,0.7)';c.beginPath();c.ellipse(mx,my-2,52,16,0,0,Math.PI*2);c.fill();}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(extPhase&gt;=1&amp;&amp;extPhase&lt;3){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const po=Math.sin(grindPhase*0.3)*10;c.fillStyle='#bbb';c.save();c.translate(mx+po,my-15);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.rotate(-0.3+Math.sin(grindPhase*0.3)*0.15);c.fillRect(-6,-60,12,70);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.beginPath();c.arc(0,10,10,0,Math.PI*2);c.fill();c.restore();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(extPhase===0){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>for(let i=0;i&lt;5;i++){c.fillStyle=`rgb(${40+i*5},${110+i*10},${40+i*3})`;c.beginPath();c.ellipse(80+Math.sin(i*2.5)*20,h*0.55+Math.cos(i*1.8)*10,22,12,i*0.3,0,Math.PI*2);c.fill();}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='rgba(245,197,66,0.9)';c.font='600 13px "DM Sans",sans-serif';c.fillText('Click leaves →',20,h*0.45);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(extPhase&gt;=1){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Acetone bottle</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const bx=380,by2=h*0.52;c.fillStyle='#556';c.fillRect(bx-18,by2,36,60);c.fillRect(bx-8,by2-16,16,18);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='#333';c.fillRect(bx-10,by2-20,20,8);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='rgba(200,200,210,0.3)';c.fillRect(bx-16,by2+60*(1-(extPhase&gt;=2?0.5:1)),32,60*(extPhase&gt;=2?0.5:1));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='#ccc';c.font='500 9px "DM Sans",sans-serif';c.textAlign='center';c.fillText('Acetone',bx,by2+35);c.textAlign='left';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(extPhase===1&amp;&amp;grindCount&gt;=8){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText('← Click acetone',420,h*0.45);}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(extPhase&gt;=3){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Test tube</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const tx=500,ty=h*0.40;c.strokeStyle='rgba(200,200,220,0.4)';c.lineWidth=2;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.beginPath();c.moveTo(tx-10,ty);c.lineTo(tx-10,ty+80);c.arc(tx,ty+80,10,Math.PI,0);c.lineTo(tx+10,ty);c.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(extPhase&gt;=3){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>c.fillStyle='rgba(30,130,50,0.8)';const lh=80*0.6;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>c.beginPath();c.moveTo(tx-8,ty+85-lh);c.lineTo(tx-8,ty+78);c.arc(tx,ty+78,8,Math.PI,0);c.lineTo(tx+8,ty+85-lh);c.closePath();c.fill();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(extPhase===3){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText('Click tube →',420,h*0.30);}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(extPhase===1&amp;&amp;grindCount&lt;8){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText(`Grind: Click mortar (${grindCount}/8)`,mx-70,my-45);}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">extCanvas.addEventListener('click', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const rect=extCanvas.getBoundingClientRect();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const sx=extCanvas.width/rect.width,sy=extCanvas.height/rect.height;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const mx2=(e.clientX-rect.left)*sx, my2=(e.clientY-rect.top)*sy;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(extPhase===0&amp;&amp;mx2&lt;160){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>extPhase=1;document.getElementById('ext-step1').style.opacity='0.4';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('ext-step1').innerHTML='&lt;strong&gt;Step 1:&lt;/strong&gt; ✅ Leaves torn into mortar';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('ext-step2').style.opacity='1';addScore(5);drawExtraction();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else if(extPhase===1&amp;&amp;grindCount&lt;8&amp;&amp;mx2&gt;130&amp;&amp;mx2&lt;270){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>grindCount++;grindPhase++;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(grindCount&gt;=8){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('ext-step2').style.opacity='0.4';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('ext-step2').innerHTML='&lt;strong&gt;Step 2:&lt;/strong&gt; ✅ Ground to a fine pulp';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('ext-step3').style.opacity='1';addScore(5);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>drawExtraction();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else if(extPhase===1&amp;&amp;grindCount&gt;=8&amp;&amp;mx2&gt;360&amp;&amp;mx2&lt;420){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>extPhase=2;setTimeout(()=&gt;{extPhase=3;drawExtraction();},600);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('ext-step3').style.opacity='0.4';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('ext-step3').innerHTML='&lt;strong&gt;Step 3:&lt;/strong&gt; ✅ Acetone added';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('ext-step4').style.opacity='1';addScore(5);drawExtraction();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else if(extPhase===3&amp;&amp;mx2&gt;470){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>extPhase=4;document.getElementById('ext-step4').style.opacity='0.4';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('ext-step4').innerHTML='&lt;strong&gt;Step 4:&lt;/strong&gt; ✅ Extract collected!';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('extNextBtn').disabled=false;addScore(5);drawExtraction();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">});</p>
+<p class="p2"><br></p>
+<p class="p1">// --- UV ---</p>
+<p class="p1">function showUV(){document.getElementById('uvOverlay').classList.add('show');setTimeout(()=&gt;{document.getElementById('uvQuestion').style.display='block';},1500);}</p>
+<p class="p1">function closeUV(){document.getElementById('uvOverlay').classList.remove('show');}</p>
+<p class="p1">function answerUV(btn,correct){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('#uvQuestion .quiz-option').forEach(b=&gt;{b.disabled=true;b.style.pointerEvents='none';});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const fb=document.getElementById('uvFeedback');fb.style.display='block';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(correct){btn.classList.add('correct');fb.className='quiz-feedback good';fb.textContent='✅ Correct! Chlorophyll absorbs UV, exciting electrons. Energy released as red fluorescence (~680 nm).';addScore(10);}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else{btn.classList.add('wrong');document.querySelectorAll('#uvQuestion .quiz-option')[1].classList.add('correct');fb.className='quiz-feedback bad';fb.textContent='❌ The correct answer: chlorophyll absorbs UV, exciting electrons which release energy as red fluorescence.';addMaxOnly(10);}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('uvNextBtn').disabled=false;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// --- Paper Setup ---</p>
+<p class="p1">const paperCanvas=document.getElementById('paperCanvas'),paperCtx=paperCanvas.getContext('2d');</p>
+<p class="p1">let paperPhase=0,pigmentDots=0;</p>
+<p class="p2"><br></p>
+<p class="p1">function drawPaper(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const c=paperCtx,w=paperCanvas.width,h=paperCanvas.height;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.clearRect(0,0,w,h);c.fillStyle='#1a2a20';c.fillRect(0,0,w,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#3a3530';c.fillRect(0,h*0.78,w,h*0.22);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(paperPhase&lt;3){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const px=150,py=40,pw=300,ph=340;c.fillStyle='#f0ece0';c.fillRect(px,py,pw,ph);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.strokeStyle='rgba(180,175,160,0.3)';c.lineWidth=0.5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>for(let i=0;i&lt;12;i++){const gy=py+(i+1)*(ph/12);c.beginPath();c.moveTo(px,gy);c.lineTo(px+pw,gy);c.stroke();}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(paperPhase&gt;=1){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const lineY=py+ph-45;c.strokeStyle='#888';c.lineWidth=1.5;c.setLineDash([]);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>c.beginPath();c.moveTo(px+15,lineY);c.lineTo(px+pw-15,lineY);c.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>c.fillStyle='#888';c.font='500 10px "DM Sans",sans-serif';c.fillText('origin line',px+pw+8,lineY+4);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(paperPhase&gt;=1){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>for(let i=0;i&lt;pigmentDots;i++){c.fillStyle='rgba(30,100,40,0.8)';c.beginPath();c.arc(px+30+i*28,lineY,4,0,Math.PI*2);c.fill();}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(paperPhase===0){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 13px "DM Sans",sans-serif';c.fillText('Click to draw pencil line',px+40,py+ph/2);}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(paperPhase===1&amp;&amp;pigmentDots&lt;8){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText(`Click to apply pigment (${pigmentDots}/8)`,px+20,py+ph-70);}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(paperPhase===2&amp;&amp;pigmentDots&gt;=8){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText('Click to roll paper &amp; place in jar',px+30,py+20);}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(paperPhase&gt;=3){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const jx=220,jy=50,jw=160,jh=320;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='rgba(200,200,210,0.08)';c.strokeStyle='rgba(200,200,220,0.25)';c.lineWidth=2;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillRect(jx,jy,jw,jh);c.strokeRect(jx,jy,jw,jh);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='#555';c.fillRect(jx-4,jy-10,jw+8,14);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='rgba(220,215,190,0.15)';c.fillRect(jx+2,jy+jh-30,jw-4,28);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='#e8e4d8';c.fillRect(jx+jw/2-30,jy+15,60,jh-30);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.strokeStyle='rgba(150,145,130,0.3)';c.strokeRect(jx+jw/2-30,jy+15,60,jh-30);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const oY=jy+jh-50;c.strokeStyle='#888';c.lineWidth=1;c.beginPath();c.moveTo(jx+jw/2-28,oY);c.lineTo(jx+jw/2+28,oY);c.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='rgba(30,100,40,0.7)';c.fillRect(jx+jw/2-25,oY-2,50,4);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='rgba(94,196,122,0.8)';c.font='600 14px "DM Sans",sans-serif';c.fillText('✓ Ready to run!',jx+jw/2-50,jy+jh/2);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">paperCanvas.addEventListener('click', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(paperPhase===0){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>paperPhase=1;document.getElementById('paper-step1').innerHTML='&lt;strong&gt;Step 1:&lt;/strong&gt; ✅ Pencil line drawn';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('paper-step1').style.opacity='0.4';document.getElementById('paper-step2').style.opacity='1';addScore(5);drawPaper();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else if(paperPhase===1&amp;&amp;pigmentDots&lt;8){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>pigmentDots++;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(pigmentDots&gt;=8){paperPhase=2;document.getElementById('paper-step2').innerHTML='&lt;strong&gt;Step 2:&lt;/strong&gt; ✅ Pigment applied';document.getElementById('paper-step2').style.opacity='0.4';document.getElementById('paper-step3').style.opacity='1';addScore(5);}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>drawPaper();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else if(paperPhase&gt;=2&amp;&amp;pigmentDots&gt;=8){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>paperPhase=3;document.getElementById('paper-step3').innerHTML='&lt;strong&gt;Step 3:&lt;/strong&gt; ✅ Paper in jar';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('paper-step3').style.opacity='0.4';document.getElementById('paperNextBtn').disabled=false;addScore(5);drawPaper();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">});</p>
+<p class="p2"><br></p>
+<p class="p1">// --- Chromatography Run ---</p>
+<p class="p1">const chromCanvas=document.getElementById('chromCanvas'),chromCtx=chromCanvas.getContext('2d');</p>
+<p class="p1">let chromProgress=0,chromRunning=false,chromDone=false;</p>
+<p class="p1">const pigments=[</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{name:'β-carotene',color:'#e8873a',rf:0.95,bw:0.06},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{name:'Xanthophylls',color:'#d4c44a',rf:0.68,bw:0.07},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{name:'Chlorophyll a',color:'#3a8a7a',rf:0.49,bw:0.06},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{name:'Chlorophyll b',color:'#8abd3a',rf:0.35,bw:0.05},</p>
+<p class="p1">];</p>
+<p class="p1">const solventDist=(8.2+Math.random()*0.6).toFixed(1);</p>
+<p class="p1">const pigmentDists2=pigments.map(p=&gt;(p.rf*solventDist).toFixed(1));</p>
+<p class="p2"><br></p>
+<p class="p1">function drawChromInitial(){drawChrom(chromProgress);}</p>
+<p class="p2"><br></p>
+<p class="p1">function drawChrom(progress){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const c=chromCtx,w=chromCanvas.width,h=chromCanvas.height;c.clearRect(0,0,w,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#151f1a';c.fillRect(0,0,w,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.strokeStyle='#3a4a40';c.lineWidth=3;c.strokeRect(20,10,w-40,h-30);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='rgba(200,200,200,0.03)';c.fillRect(20,10,w-40,h-30);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const jx=w/2-80,jy=50,jw=160,jh=380;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='rgba(200,200,210,0.06)';c.strokeStyle='rgba(200,200,220,0.2)';c.lineWidth=2;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillRect(jx,jy,jw,jh);c.strokeRect(jx,jy,jw,jh);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#666';c.fillRect(jx-4,jy-12,jw+8,16);c.fillStyle='#777';c.fillRect(jx-2,jy-10,jw+4,4);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='rgba(210,205,185,0.12)';c.fillRect(jx+2,jy+jh-25,jw-4,23);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const pX=jx+jw/2-35,pW=70,pT=jy+20,pB=jy+jh-10,pH2=pB-pT;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#ede8d8';c.fillRect(pX,pT,pW,pH2);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const oY=pB-35;c.strokeStyle='#999';c.lineWidth=1;c.setLineDash([3,3]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.beginPath();c.moveTo(pX,oY);c.lineTo(pX+pW,oY);c.stroke();c.setLineDash([]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='rgba(30,100,40,0.6)';c.fillRect(pX+5,oY-2,pW-10,4);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const maxT=oY-pT-20,sfY=oY-maxT*progress;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(progress&gt;0){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='rgba(200,195,175,0.12)';c.fillRect(pX,sfY,pW,oY-sfY);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.strokeStyle='rgba(180,175,155,0.6)';c.lineWidth=1.5;c.beginPath();c.moveTo(pX,sfY);c.lineTo(pX+pW,sfY);c.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(progress&gt;0.15){c.fillStyle='rgba(180,175,155,0.5)';c.font='500 9px "DM Sans",sans-serif';c.fillText('solvent front',pX+pW+8,sfY+4);}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>pigments.forEach(p=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const bp=Math.min(1,progress/(p.rf*0.8+0.2));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(bp&gt;0.1){const bY=oY-maxT*p.rf*progress;c.fillStyle=p.color;c.globalAlpha=Math.min(0.85,bp);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>c.beginPath();c.ellipse(pX+pW/2,bY,pW/2-4,p.bw*maxT/2+3,0,0,Math.PI*2);c.fill();c.globalAlpha=1;}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#999';c.font='500 10px "DM Sans",sans-serif';c.fillText('origin',pX+pW+8,oY+4);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(chromRunning||chromDone){const mins=Math.floor(progress*20);c.fillStyle='rgba(255,255,255,0.6)';c.font='500 12px "DM Sans",sans-serif';c.fillText(`Time: ${mins} min`,jx+10,jy+jh+20);}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function startChromatography(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(chromRunning||chromDone)return;chromRunning=true;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('startChromBtn').disabled=true;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('chromStatus').textContent='Separation in progress...';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function anim(){chromProgress+=0.003;drawChrom(Math.min(1,chromProgress));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(chromProgress&lt;1)requestAnimationFrame(anim);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>else{chromRunning=false;chromDone=true;document.getElementById('chromStatus').textContent='✅ Separation complete! 4 distinct bands visible.';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('chromLegend').style.display='block';document.getElementById('chromNextBtn').disabled=false;addScore(10);}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}anim();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// --- Measure Rf ---</p>
+<p class="p1">const measureCanvas=document.getElementById('measureCanvas'),measureCtx=measureCanvas.getContext('2d');</p>
+<p class="p2"><br></p>
+<p class="p1">function drawMeasureCanvas(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('solventDist').textContent=solventDist;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>['bc','xa','ca','cb'].forEach((id,i)=&gt;document.getElementById('dist-'+id).textContent=pigmentDists2[i]);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const c=measureCtx,w=measureCanvas.width,h=measureCanvas.height;c.clearRect(0,0,w,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#151f1a';c.fillRect(0,0,w,h);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const px=120,py=30,pw=280,ph=420;c.fillStyle='#ede8d8';c.fillRect(px,py,pw,ph);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const oY=py+ph-35,maxPx=oY-py-20,cmPx=maxPx/parseFloat(solventDist);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#eee8d0';c.fillRect(px-50,py,45,ph);c.strokeStyle='#aaa';c.lineWidth=1;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>for(let cm=0;cm&lt;=parseFloat(solventDist)+1;cm++){const ry=oY-cm*cmPx;if(ry&lt;py)break;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.beginPath();c.moveTo(px-50,ry);c.lineTo(px-8,ry);c.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='#777';c.font='500 10px "DM Sans",sans-serif';c.fillText(cm+' cm',px-48,ry+3);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const hY=ry-cmPx*0.5;if(hY&gt;py){c.beginPath();c.moveTo(px-30,hY);c.lineTo(px-8,hY);c.stroke();}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.strokeStyle='#888';c.lineWidth=1.5;c.setLineDash([4,4]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.beginPath();c.moveTo(px,oY);c.lineTo(px+pw,oY);c.stroke();c.setLineDash([]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='#888';c.font='500 10px "DM Sans",sans-serif';c.fillText('origin',px+pw+8,oY+4);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const sfY=oY-parseFloat(solventDist)*cmPx;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.strokeStyle='rgba(180,175,155,0.7)';c.lineWidth=1.5;c.setLineDash([4,4]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.beginPath();c.moveTo(px,sfY);c.lineTo(px+pw,sfY);c.stroke();c.setLineDash([]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='rgba(180,175,155,0.7)';c.fillText('solvent front',px+pw+8,sfY+4);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const cols=['#e8873a','#d4c44a','#3a8a7a','#8abd3a'],names=['β-carotene','Xanthophylls','Chl a','Chl b'];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>pigmentDists2.forEach((d,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const bY=oY-parseFloat(d)*cmPx;c.fillStyle=cols[i];c.globalAlpha=0.85;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.beginPath();c.ellipse(px+pw/2,bY,pw/2-15,8+i*1.5,0,0,Math.PI*2);c.fill();c.globalAlpha=1;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.strokeStyle='rgba(255,255,255,0.3)';c.lineWidth=0.5;c.setLineDash([2,3]);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.beginPath();c.moveTo(px+pw,bY);c.lineTo(px+pw+45,bY);c.stroke();c.setLineDash([]);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle=cols[i];c.font='600 10px "DM Sans",sans-serif';c.fillText(names[i],px+pw+8,bY-6);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>c.fillStyle='rgba(255,255,255,0.5)';c.font='500 9px "DM Sans",sans-serif';c.fillText(d+' cm',px+pw+8,bY+6);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>c.fillStyle='rgba(255,255,255,0.35)';c.font='500 10px "DM Sans",sans-serif';c.fillText('Rf = pigment dist ÷ solvent dist',px+10,py+18);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function checkRfValues(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const correct=pigmentDists2.map(d=&gt;(parseFloat(d)/parseFloat(solventDist)).toFixed(2));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const ids=['bc','xa','ca','cb'];let allOk=true,cc=0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>ids.forEach((id,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const inp=document.getElementById('rf-'+id),chk=document.getElementById('check-'+id);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const uv=parseFloat(inp.value),cv=parseFloat(correct[i]);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(!isNaN(uv)&amp;&amp;Math.abs(uv-cv)&lt;0.05){chk.textContent='✅';chk.style.color='#5ec47a';inp.style.borderColor='#5ec47a';cc++;}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>else{chk.textContent='❌ '+correct[i];chk.style.color='#f07070';inp.style.borderColor='#f07070';allOk=false;}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const fb=document.getElementById('rfFeedback');fb.style.display='block';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(allOk){fb.className='quiz-feedback good';fb.textContent='🎉 All Rf values correct! β-carotene highest (least polar), Chlorophyll b lowest (most polar).';addScore(20);}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if(cc&gt;0){fb.className='quiz-feedback bad';fb.textContent=`${cc}/4 correct. Rf = distance pigment ÷ distance solvent. Values always between 0 and 1.`;addScore(cc*5);addMaxOnly((4-cc)*5);}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else{fb.className='quiz-feedback bad';fb.textContent=`Divide each pigment distance by ${solventDist}. Ex: β-carotene = ${pigmentDists2[0]} ÷ ${solventDist} = ${correct[0]}`;addMaxOnly(20);}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('measureNextBtn').disabled=false;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// --- Review Quiz ---</p>
+<p class="p1">const quizQs=[</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{q:"Which plant pigments are most polar?",opts:["β-carotene and xanthophylls","Chlorophyll a and chlorophyll b","Carotenoids and xanthophylls","Chlorophyll a and β-carotene"],correct:1,ex:"Chlorophyll a and b are most polar — they travel the shortest distance, attracted to the polar cellulose paper."},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{q:"Which pigments are least polar?",opts:["Chlorophyll b","Chlorophyll a","Xanthophylls","β-carotene"],correct:3,ex:"β-carotene is least polar, with the highest affinity for the nonpolar solvent, traveling farthest up the paper."},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{q:"How does polarity affect pigment movement on the chromatography paper?",opts:["More polar pigments travel farther (dissolve better in solvent)","Less polar pigments travel farther (more affinity for nonpolar solvent)","Polarity has no effect; only molecular weight matters","More polar pigments travel farther (repelled by paper)"],correct:1,ex:"'Like dissolves like.' Nonpolar pigments travel far with the nonpolar solvent. Polar pigments stick to the polar paper."},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{q:"What does Rf stand for, and what does a high Rf value indicate?",opts:["Reaction factor — more reaction with the paper","Retention factor — traveled farther, less polar","Reflection factor — reflects more light","Retention factor — retained more on the paper"],correct:1,ex:"Rf = Retention factor = pigment distance ÷ solvent distance. High Rf → traveled far → less polar."},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{q:"Solution A moves 4 cm, Solution B moves 4.5 cm, solvent moves 10 cm. Which is more polar?",opts:["Solution B (moved farther)","Solution A (moved less — more attracted to polar paper)","Same polarity","Cannot determine"],correct:1,ex:"Solution A (Rf=0.40) is more polar than Solution B (Rf=0.45). It moved less due to greater affinity for the polar stationary phase."}</p>
+<p class="p1">];</p>
+<p class="p1">let quizDone=0;</p>
+<p class="p1">function initQuiz(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const ct=document.getElementById('quizContainer');if(ct.children.length&gt;0)return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>quizQs.forEach((qq,qi)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const div=document.createElement('div');div.style.cssText='margin-top:20px;padding-top:16px;'+(qi&gt;0?'border-top:1px solid rgba(255,255,255,0.06);':'');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const qt=document.createElement('p');qt.style.cssText='font-size:0.88rem;font-weight:600;margin-bottom:10px;color:var(--text);';qt.textContent=`${qi+1}. ${qq.q}`;div.appendChild(qt);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>qq.opts.forEach((opt,oi)=&gt;{const btn=document.createElement('button');btn.className='quiz-option';btn.textContent=opt;btn.id=`q${qi}o${oi}`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>btn.onclick=()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>qq.opts.forEach((_,j)=&gt;{document.getElementById(`q${qi}o${j}`).style.pointerEvents='none';});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fb2=document.getElementById(`qfb${qi}`);fb2.style.display='block';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(oi===qq.correct){btn.classList.add('correct');fb2.className='quiz-feedback good';fb2.textContent='✅ '+qq.ex;addScore(10);}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else{btn.classList.add('wrong');document.getElementById(`q${qi}o${qq.correct}`).classList.add('correct');fb2.className='quiz-feedback bad';fb2.textContent='❌ '+qq.ex;addMaxOnly(10);}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>quizDone++;if(quizDone&gt;=quizQs.length)document.getElementById('finishBtn').style.display='inline-flex';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};div.appendChild(btn);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const fb3=document.createElement('div');fb3.className='quiz-feedback';fb3.id=`qfb${qi}`;fb3.style.display='none';div.appendChild(fb3);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ct.appendChild(div);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function showCompletion(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('completionCard').style.display='block';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('finalScore').textContent=score;document.getElementById('maxScore').textContent=maxPossible;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const pct=maxPossible&gt;0?score/maxPossible:0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('starRating').textContent=pct&gt;0.9?'⭐⭐⭐':pct&gt;0.7?'⭐⭐':'⭐';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('completionCard').scrollIntoView({behavior:'smooth'});</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// Initial draws</p>
+<p class="p1">drawExtraction();</p>
+<p class="p1">drawPaper();</p>
+<p class="p1">drawChromInitial();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
