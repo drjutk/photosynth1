@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaf Lab — Photosynthesis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap');
+
+  :root {
+    --green-deep: #1a4d2e;
+    --green-mid: #2d7a4a;
+    --green-light: #5ec47a;
+    --green-pale: #c8f0d4;
+    --sun-gold: #f5c542;
+    --sun-orange: #e8943a;
+    --sky-blue: #87ceeb;
+    --water-blue: #3a8fd4;
+    --co2-purple: #9b7ec8;
+    --o2-coral: #f07070;
+    --glucose-amber: #e8a83e;
+    --soil-brown: #8b6914;
+    --soil-dark: #5a3e0a;
+    --bg: #0d1f15;
+    --card-bg: rgba(20, 48, 35, 0.90);
+    --card-border: rgba(94, 196, 122, 0.15);
+    --text: #e8f5ec;
+    --text-dim: #8aab96;
+    --accent: #5ec47a;
+    --carotene: #e8873a;
+    --xanth: #d4c44a;
+    --chla: #3a8a7a;
+    --chlb: #8abd3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== TOP NAV / CHAPTER SELECTOR ===== */
+  .top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    background: rgba(13, 31, 21, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 56px;
+  }
+  .nav-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--green-light), var(--sun-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: 28px;
+    white-space: nowrap;
+    letter-spacing: -0.3px;
+  }
+  .nav-brand span {
+    font-size: 0.7rem;
+    font-weight: 400;
+    -webkit-text-fill-color: var(--text-dim);
+    letter-spacing: 0;
+    margin-left: 4px;
+  }
+  .chapter-tabs {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .chapter-tabs::-webkit-scrollbar { display: none; }
+  .chapter-tab {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 18px;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 10px 10px 0 0;
+    white-space: nowrap;
+    transition: all 0.25s;
+    border-bottom: 2px solid transparent;
+    position: relative;
+  }
+  .chapter-tab:hover {
+    color: var(--text);
+    background: rgba(94, 196, 122, 0.06);
+  }
+  .chapter-tab.active {
+    color: var(--accent);
+    background: rgba(94, 196, 122, 0.10);
+    border-bottom-color: var(--accent);
+  }
+  .tab-icon {
+    font-size: 1rem;
+  }
+  .tab-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: rgba(255,255,255,0.06);
+  }
+  .chapter-tab.active .tab-num {
+    background: var(--accent);
+    color: var(--bg);
+  }
+  .chapter-tab.locked {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .chapter-tab.locked:hover {
+    background: transparent;
+    color: var(--text-dim);
+  }
+
+  /* ===== CHAPTER SECTIONS ===== */
+  .chapter-section {
+    display: none;
+    animation: chapterFade 0.35s ease;
+  }
+  .chapter-section.visible {
+    display: block;
+  }
+  @keyframes chapterFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ===== SHARED CARD / BUTTON STYLES ===== */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(8px);
+    margin-bottom: 16px;
+  }
+  .card h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--green-light);
+  }
+  .card p, .card li {
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--text-dim);
+  }
+  .card ul { padding-left: 18px; margin-top: 6px; }
+  .card li { margin-bottom: 4px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--accent); color: var(--bg); }
+  .btn-primary:hover { background: #7ad694; transform: translateY(-1px); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.08);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+
+  .hint-badge {
+    display: inline-block;
+    background: rgba(245,197,66,0.15);
+    color: var(--sun-gold);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .lab-canvas-wrap {
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0a160f;
+    border: 1px solid var(--card-border);
+    position: relative;
+  }
+  .lab-canvas-wrap canvas {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  /* ============================================================
+     ACT 0 STYLES
+     ============================================================ */
+  #act0 .a0-header {
+    text-align: center;
+    padding: 18px 20px 8px;
+  }
+  #act0 .a0-header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--green-light);
+  }
+  #act0 .a0-header .subtitle {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .a0-layout {
+    display: flex;
+    gap: 20px;
+    padding: 12px 24px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 600px;
+  }
+
+  .a0-controls {
+    width: 260px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .control-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .control-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .control-card h3 .icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  .sun-icon { background: rgba(245,197,66,0.2); }
+  .co2-icon { background: rgba(155,126,200,0.2); }
+  .water-icon { background: rgba(58,143,212,0.2); }
+  .temp-icon { background: rgba(240,112,112,0.2); }
+
+  .slider-row { display: flex; align-items: center; gap: 10px; }
+  .slider-row input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+  .slider-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  .slider-val { font-size: 0.8rem; font-weight: 600; min-width: 40px; text-align: right; }
+  #sunSlider { background: linear-gradient(to right, #333, var(--sun-gold)); }
+  #sunSlider::-webkit-slider-thumb { background: var(--sun-gold); }
+  #co2Slider { background: linear-gradient(to right, #333, var(--co2-purple)); }
+  #co2Slider::-webkit-slider-thumb { background: var(--co2-purple); }
+  #waterSlider { background: linear-gradient(to right, #333, var(--water-blue)); }
+  #waterSlider::-webkit-slider-thumb { background: var(--water-blue); }
+  #tempSlider { background: linear-gradient(to right, #5588cc, #44aa55, #dd5555); }
+  #tempSlider::-webkit-slider-thumb { background: var(--green-light); }
+  .label-row { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-dim); margin-top: 3px; }
+
+  .a0-plant {
+    flex: 1;
+    position: relative;
+    min-height: 550px;
+  }
+  .a0-plant canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 18px;
+  }
+  .tooltip-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .hover-label {
+    position: absolute;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    max-width: 220px;
+    line-height: 1.4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 20;
+    border: 1px solid rgba(94,196,122,0.3);
+  }
+
+  .a0-info {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .info-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--green-light);
+  }
+
+  .equation-box {
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 2;
+  }
+  .eq-reactant { color: var(--co2-purple); font-weight: 600; }
+  .eq-water { color: var(--water-blue); font-weight: 600; }
+  .eq-light { color: var(--sun-gold); font-weight: 600; }
+  .eq-glucose { color: var(--glucose-amber); font-weight: 600; }
+  .eq-oxygen { color: var(--o2-coral); font-weight: 600; }
+  .eq-arrow { font-size: 1.2rem; margin: 0 6px; }
+
+  .rate-bar-bg {
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+    height: 14px;
+    overflow: hidden;
+  }
+  .rate-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--green-mid), var(--green-light));
+    transition: width 0.5s ease;
+  }
+  .rate-value { font-size: 0.85rem; font-weight: 600; color: var(--green-light); margin-top: 4px; }
+
+  .output-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .output-row:last-child { border-bottom: none; }
+  .output-label { font-size: 0.78rem; display: flex; align-items: center; gap: 6px; }
+  .output-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .output-val { font-size: 0.85rem; font-weight: 600; }
+
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; padding: 3px 0; color: var(--text-dim); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ============================================================
+     ACT 1 STYLES
+     ============================================================ */
+  #act1 .a1-header {
+    text-align: center;
+    padding: 18px 20px 8px;
+  }
+  #act1 .a1-header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--green-light);
+  }
+  #act1 .a1-header .subtitle { font-size: 0.85rem; color: var(--text-dim); margin-top: 2px; }
+
+  .step-bar {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 24px;
+    flex-wrap: wrap;
+  }
+  .step-pip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--text-dim);
+    transition: all 0.3s;
+  }
+  .step-pip.active { background: rgba(94,196,122,0.15); border-color: var(--accent); color: var(--accent); }
+  .step-pip.done { background: rgba(94,196,122,0.08); border-color: rgba(94,196,122,0.3); color: rgba(94,196,122,0.6); }
+  .step-num {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+  .step-pip.active .step-num { background: var(--accent); color: var(--bg); }
+  .step-pip.done .step-num { background: rgba(94,196,122,0.3); }
+
+  .a1-main { max-width: 1100px; margin: 0 auto; padding: 0 24px 40px; }
+
+  .step-panel { display: none; animation: fadeIn 0.4s ease; }
+  .step-panel.visible { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .two-col { display: flex; gap: 24px; align-items: flex-start; }
+  .col-visual { flex: 1; min-width: 300px; }
+  .col-text { width: 340px; flex-shrink: 0; }
+
+  /* Score badge */
+  .score-display {
+    margin-left: auto;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .score-display span { color: var(--sun-gold); }
+
+  /* Data table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 10px; }
+  .data-table th { background: rgba(94,196,122,0.1); color: var(--accent); padding: 8px; text-align: left; font-weight: 600; border-bottom: 1px solid var(--card-border); }
+  .data-table td { padding: 7px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-dim); }
+  .data-table input {
+    width: 60px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text);
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    text-align: center;
+  }
+  .data-table input:focus { outline: none; border-color: var(--accent); }
+  .data-table .color-dot {
+    display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+    vertical-align: middle; margin-right: 6px; border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Quiz */
+  .quiz-option {
+    display: block; width: 100%; text-align: left;
+    padding: 10px 14px; margin-bottom: 6px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; color: var(--text); font-size: 0.82rem;
+    cursor: pointer; transition: all 0.2s; font-family: inherit;
+  }
+  .quiz-option:hover { background: rgba(94,196,122,0.1); border-color: var(--accent); }
+  .quiz-option.correct { background: rgba(94,196,122,0.2); border-color: var(--accent); color: var(--accent); }
+  .quiz-option.wrong { background: rgba(240,70,70,0.15); border-color: #f04646; color: #f07070; }
+  .quiz-feedback { font-size: 0.8rem; padding: 10px 14px; border-radius: 10px; margin-top: 8px; line-height: 1.5; }
+  .quiz-feedback.good { background: rgba(94,196,122,0.1); color: var(--green-light); }
+  .quiz-feedback.bad { background: rgba(240,70,70,0.1); color: #f07070; }
+
+  /* UV overlay */
+  .uv-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,0,30,0.95);
+    display: none; align-items: center; justify-content: center;
+    z-index: 600; cursor: pointer; flex-direction: column; gap: 20px;
+  }
+  .uv-overlay.show { display: flex; }
+  .uv-test-tube {
+    width: 60px; height: 180px;
+    border: 3px solid rgba(150,130,255,0.4);
+    border-radius: 0 0 30px 30px;
+    border-top: none;
+    position: relative; overflow: hidden;
+  }
+  .uv-liquid {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 65%;
+    background: radial-gradient(ellipse at center, #ff2020, #cc0000, #800020);
+    animation: uvGlow 1.5s ease-in-out infinite alternate;
+    border-radius: 0 0 27px 27px;
+  }
+  @keyframes uvGlow {
+    from { filter: brightness(1); box-shadow: 0 0 20px rgba(255,0,0,0.5); }
+    to { filter: brightness(1.4); box-shadow: 0 0 40px rgba(255,50,50,0.8); }
+  }
+  .uv-caption { color: #cc99ff; font-size: 0.85rem; text-align: center; max-width: 350px; line-height: 1.6; }
+  .uv-dismiss { color: rgba(255,255,255,0.4); font-size: 0.72rem; }
+
+  @media (max-width: 1100px) {
+    .a0-layout { flex-direction: column; align-items: center; }
+    .a0-controls, .a0-info { width: 100%; max-width: 600px; flex-direction: row; flex-wrap: wrap; }
+    .a0-controls .control-card, .a0-info .info-card { flex: 1; min-width: 200px; }
+    .a0-plant { width: 100%; min-height: 450px; max-width: 700px; }
+  }
+  @media (max-width: 800px) {
+    .two-col { flex-direction: column; }
+    .col-text { width: 100%; }
+    .top-nav { flex-wrap: wrap; height: auto; padding: 10px 16px; gap: 8px; }
+    .nav-brand { margin-right: auto; }
+    .score-display { order: 2; }
+    .chapter-tabs { order: 3; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAVIGATION ===== -->
+<nav class="top-nav">
+  <div class="nav-brand">🌿 Leaf Lab <span>Photosynthesis</span></div>
+  <div class="chapter-tabs">
+    <button class="chapter-tab active" onclick="switchChapter(0)">
+      <span class="tab-num">0</span> Interactive Review
+    </button>
+    <button class="chapter-tab" onclick="switchChapter(1)">
+      <span class="tab-num">1</span> Chromatography
+    </button>
+    <button class="chapter-tab locked" title="Coming soon">
+      <span class="tab-num">2</span> Absorption Spectra 🔒
+    </button>
+    <button class="chapter-tab locked" title="Coming soon">
+      <span class="tab-num">3</span> Floating Leaf Disks 🔒
+    </button>
+    <button class="chapter-tab locked" title="Coming soon">
+      <span class="tab-num">4</span> Stomata 🔒
+    </button>
+  </div>
+  <div class="score-display">⭐ Score: <span id="scoreVal">0</span></div>
+</nav>
+
+<!-- UV Overlay (shared) -->
+<div class="uv-overlay" id="uvOverlay" onclick="closeUV()">
+  <div class="uv-test-tube"><div class="uv-liquid"></div></div>
+  <div class="uv-caption">
+    Under UV light, the chlorophyll extract <strong style="color:#ff6666">fluoresces red</strong>.<br><br>
+    Chlorophyll absorbs UV energy, exciting electrons to a higher state. When they return to ground state, they release the extra energy as red fluorescence light (~680 nm).
+  </div>
+  <div class="uv-dismiss">Click anywhere to continue</div>
+</div>
+
+<!-- ============================================================
+     ACT 0: INTERACTIVE PHOTOSYNTHESIS REVIEW
+     ============================================================ -->
+<div class="chapter-section visible" id="act0">
+  <div class="a0-header">
+    <h1>How Photosynthesis Works</h1>
+    <p class="subtitle">Adjust conditions and watch photosynthesis happen inside a living plant</p>
+  </div>
+
+  <div class="a0-layout">
+    <!-- Controls -->
+    <div class="a0-controls">
+      <div class="control-card">
+        <h3><span class="icon sun-icon">☀</span> Sunlight Intensity</h3>
+        <div class="slider-row">
+          <input type="range" id="sunSlider" min="0" max="100" value="70">
+          <span class="slider-val" id="sunVal">70%</span>
+        </div>
+        <div class="label-row"><span>Dark</span><span>Bright</span></div>
+      </div>
+      <div class="control-card">
+        <h3><span class="icon co2-icon">◎</span> CO₂ Concentration</h3>
+        <div class="slider-row">
+          <input type="range" id="co2Slider" min="0" max="100" value="60">
+          <span class="slider-val" id="co2Val">60%</span>
+        </div>
+        <div class="label-row"><span>Low</span><span>High</span></div>
+      </div>
+      <div class="control-card">
+        <h3><span class="icon water-icon">💧</span> Water Availability</h3>
+        <div class="slider-row">
+          <input type="range" id="waterSlider" min="0" max="100" value="80">
+          <span class="slider-val" id="waterVal">80%</span>
+        </div>
+        <div class="label-row"><span>Dry</span><span>Wet</span></div>
+      </div>
+      <div class="control-card">
+        <h3><span class="icon temp-icon">🌡</span> Temperature</h3>
+        <div class="slider-row">
+          <input type="range" id="tempSlider" min="0" max="50" value="25">
+          <span class="slider-val" id="tempVal">25°C</span>
+        </div>
+        <div class="label-row"><span>0°C</span><span>50°C</span></div>
+      </div>
+      <div class="control-card">
+        <h3>🔑 Legend</h3>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--sun-gold)"></span> Light photons</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--co2-purple)"></span> CO₂ molecules</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--water-blue)"></span> H₂O molecules</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--o2-coral)"></span> O₂ released</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--glucose-amber)"></span> Glucose produced</div>
+      </div>
+    </div>
+
+    <!-- Plant Canvas -->
+    <div class="a0-plant">
+      <canvas id="plantCanvas"></canvas>
+      <div class="tooltip-overlay" id="tooltipOverlay">
+        <div class="hover-label" id="hoverLabel"></div>
+      </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="a0-info">
+      <div class="info-card">
+        <h3>⚗ Chemical Equation</h3>
+        <div class="equation-box">
+          <span class="eq-water">6H₂O</span> + <span class="eq-reactant">6CO₂</span><br>
+          <span class="eq-arrow">↓</span> <span class="eq-light">sunlight energy</span><br>
+          <span class="eq-glucose">C₆H₁₂O₆</span> + <span class="eq-oxygen">6O₂</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>⚡ Photosynthesis Rate</h3>
+        <div class="rate-bar-bg"><div class="rate-bar-fill" id="rateFill" style="width:50%"></div></div>
+        <div class="rate-value" id="rateText">Moderate</div>
+      </div>
+      <div class="info-card">
+        <h3>📊 Current Output</h3>
+        <div class="output-row">
+          <span class="output-label"><span class="output-dot" style="background:var(--o2-coral)"></span> O₂ released</span>
+          <span class="output-val" id="o2Out" style="color:var(--o2-coral)">0</span>
+        </div>
+        <div class="output-row">
+          <span class="output-label"><span class="output-dot" style="background:var(--glucose-amber)"></span> Glucose made</span>
+          <span class="output-val" id="glucOut" style="color:var(--glucose-amber)">0</span>
+        </div>
+        <div class="output-row">
+          <span class="output-label"><span class="output-dot" style="background:var(--water-blue)"></span> H₂O used</span>
+          <span class="output-val" id="waterOut" style="color:var(--water-blue)">0</span>
+        </div>
+        <div class="output-row">
+          <span class="output-label"><span class="output-dot" style="background:var(--co2-purple)"></span> CO₂ used</span>
+          <span class="output-val" id="co2Out" style="color:var(--co2-purple)">0</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>💡 What's Happening</h3>
+        <p id="infoText" style="font-size:0.78rem; line-height:1.6; color:var(--text-dim);">
+          Adjust the sliders to change conditions. Watch how the plant responds — light photons strike the leaf, CO₂ enters through stomata, and water travels up from the roots.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ACT 1: CHROMATOGRAPHY
+     ============================================================ -->
+<div class="chapter-section" id="act1">
+  <div class="a1-header">
+    <h1>Exercise 1: Separation of Plant Pigments</h1>
+    <p class="subtitle">Extract, separate, and identify pigments from spinach leaves using chromatography</p>
+  </div>
+
+  <div class="step-bar" id="stepBar">
+    <div class="step-pip active" data-step="0"><span class="step-num">1</span> Extract</div>
+    <div class="step-pip" data-step="1"><span class="step-num">2</span> UV Light</div>
+    <div class="step-pip" data-step="2"><span class="step-num">3</span> Setup Paper</div>
+    <div class="step-pip" data-step="3"><span class="step-num">4</span> Run Chromatography</div>
+    <div class="step-pip" data-step="4"><span class="step-num">5</span> Measure & Calculate</div>
+    <div class="step-pip" data-step="5"><span class="step-num">6</span> Review Questions</div>
+  </div>
+
+  <div class="a1-main">
+    <!-- STEP 0: Extraction -->
+    <div class="step-panel visible" id="step0">
+      <div class="two-col">
+        <div class="col-visual">
+          <div class="lab-canvas-wrap"><canvas id="extractCanvas" width="600" height="440"></canvas></div>
+        </div>
+        <div class="col-text">
+          <div class="card">
+            <span class="hint-badge">👆 Click to interact</span>
+            <h2>Pigment Extraction</h2>
+            <ul>
+              <li id="ext-step1"><strong>Step 1:</strong> Click the spinach leaves to tear them into the mortar</li>
+              <li id="ext-step2" style="opacity:0.4"><strong>Step 2:</strong> Click the mortar to grind (8 times)</li>
+              <li id="ext-step3" style="opacity:0.4"><strong>Step 3:</strong> Click the acetone bottle to add solvent</li>
+              <li id="ext-step4" style="opacity:0.4"><strong>Step 4:</strong> Click the test tube to pour off the extract</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h2>Why This Works</h2>
+            <p>Quartz sand breaks open plant cells, releasing pigment molecules from chloroplasts. Acetone dissolves the nonpolar pigments, creating a concentrated green extract.</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="extNextBtn" disabled onclick="a1GoStep(1)">Continue to UV Test →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1: UV -->
+    <div class="step-panel" id="step1">
+      <div class="two-col">
+        <div class="col-visual">
+          <div class="card" style="text-align:center; padding:40px;">
+            <h2>🔬 UV Light Test</h2>
+            <p style="margin-bottom:20px;">Examine the extract under UV light. Chlorophyll fluoresces an unexpected color!</p>
+            <button class="btn btn-primary" onclick="showUV()">🔦 Turn on UV Light</button>
+          </div>
+          <div class="card" id="uvQuestion" style="display:none;">
+            <h2>Quick Check</h2>
+            <p style="margin-bottom:12px;">Why does the green chlorophyll extract fluoresce red under UV light?</p>
+            <button class="quiz-option" onclick="answerUV(this,false)">UV light destroys the chlorophyll, revealing red pigments beneath</button>
+            <button class="quiz-option" onclick="answerUV(this,true)">Chlorophyll absorbs UV energy, and re-emits it as lower-energy red light as electrons return to ground state</button>
+            <button class="quiz-option" onclick="answerUV(this,false)">The acetone solvent changes color under UV radiation</button>
+            <div class="quiz-feedback" id="uvFeedback" style="display:none"></div>
+          </div>
+        </div>
+        <div class="col-text">
+          <div class="card">
+            <h2>About Fluorescence</h2>
+            <p>Fluorescence occurs when a molecule absorbs light at one wavelength and emits it at a longer wavelength. In isolated extract, there's no photosystem to receive the energy, so it's released as red fluorescence (~680 nm).</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="a1GoStep(0)">← Back</button>
+            <button class="btn btn-primary" id="uvNextBtn" disabled onclick="a1GoStep(2)">Continue to Paper Setup →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Setup Paper -->
+    <div class="step-panel" id="step2">
+      <div class="two-col">
+        <div class="col-visual">
+          <div class="lab-canvas-wrap"><canvas id="paperCanvas" width="600" height="440"></canvas></div>
+        </div>
+        <div class="col-text">
+          <div class="card">
+            <span class="hint-badge">👆 Click to perform each step</span>
+            <h2>Prepare Chromatography Paper</h2>
+            <ul>
+              <li id="paper-step1"><strong>Step 1:</strong> Click to draw a pencil line 1.5 cm from bottom</li>
+              <li id="paper-step2" style="opacity:0.4"><strong>Step 2:</strong> Click along the line to apply pigment dots (8×)</li>
+              <li id="paper-step3" style="opacity:0.4"><strong>Step 3:</strong> Click to roll paper and place in jar</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h2>Key Concepts</h2>
+            <p><strong>Stationary phase:</strong> Paper (cellulose) — very polar.</p>
+            <p style="margin-top:6px;"><strong>Mobile phase:</strong> Solvent (petroleum ether + acetone) — nonpolar.</p>
+            <p style="margin-top:6px;">"Like dissolves like." Nonpolar pigments travel farther with the nonpolar solvent. Polar pigments stick to the polar paper.</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="a1GoStep(1)">← Back</button>
+            <button class="btn btn-primary" id="paperNextBtn" disabled onclick="a1GoStep(3)">Run Chromatography →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Run Chromatography -->
+    <div class="step-panel" id="step3">
+      <div class="two-col">
+        <div class="col-visual">
+          <div class="lab-canvas-wrap"><canvas id="chromCanvas" width="600" height="500"></canvas></div>
+          <div class="btn-row" style="justify-content:center; margin-top:12px;">
+            <button class="btn btn-primary" id="startChromBtn" onclick="startChromatography()">▶ Start Separation</button>
+          </div>
+        </div>
+        <div class="col-text">
+          <div class="card">
+            <h2>Chromatography in Progress</h2>
+            <p id="chromStatus">Click "Start Separation" to begin. Watch the solvent move up the paper, carrying pigments at different rates.</p>
+            <div id="chromLegend" style="margin-top:14px; display:none;">
+              <p style="font-size:0.75rem; color:var(--accent); font-weight:600; margin-bottom:6px;">Pigment Bands (top → bottom):</p>
+              <div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:0.78rem;color:var(--text-dim)">
+                <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#e8873a"></span>
+                β-carotene — least polar, travels farthest
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:0.78rem;color:var(--text-dim)">
+                <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#d4c44a"></span>
+                Xanthophylls — slightly polar
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:0.78rem;color:var(--text-dim)">
+                <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#3a8a7a"></span>
+                Chlorophyll a — moderately polar
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:0.78rem;color:var(--text-dim)">
+                <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#8abd3a"></span>
+                Chlorophyll b — most polar, stays lowest
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h2>What's Happening</h2>
+            <p>The nonpolar solvent moves upward by capillary action. β-carotene (most nonpolar) travels farthest. Chlorophyll b (most polar) sticks to the cellulose and barely moves.</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="a1GoStep(2)">← Back</button>
+            <button class="btn btn-primary" id="chromNextBtn" disabled onclick="a1GoStep(4)">Measure Results →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: Measure & Calculate Rf -->
+    <div class="step-panel" id="step4">
+      <div class="two-col">
+        <div class="col-visual">
+          <div class="lab-canvas-wrap"><canvas id="measureCanvas" width="600" height="500"></canvas></div>
+          <p style="font-size:0.72rem;color:var(--text-dim);margin-top:6px;text-align:center;">Band distances are labeled on the right. Use them to calculate Rf.</p>
+        </div>
+        <div class="col-text">
+          <div class="card">
+            <h2>Calculate R<sub>f</sub> Values</h2>
+            <p style="margin-bottom:8px;">R<sub>f</sub> = distance pigment traveled ÷ distance solvent front traveled</p>
+            <p style="font-size:0.75rem;color:var(--accent);margin-bottom:10px;">Solvent front distance: <strong id="solventDist">8.5</strong> cm</p>
+            <table class="data-table">
+              <tr><th>Pigment</th><th>Color</th><th>Dist (cm)</th><th>Your R<sub>f</sub></th><th>✓</th></tr>
+              <tr>
+                <td><span class="color-dot" style="background:#e8873a"></span>β-carotene</td>
+                <td>Orange</td>
+                <td id="dist-bc">8.1</td>
+                <td><input type="text" id="rf-bc" placeholder="?.??"></td>
+                <td id="check-bc"></td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#d4c44a"></span>Xanthophylls</td>
+                <td>Yellow</td>
+                <td id="dist-xa">5.8</td>
+                <td><input type="text" id="rf-xa" placeholder="?.??"></td>
+                <td id="check-xa"></td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#3a8a7a"></span>Chlorophyll a</td>
+                <td>Blue-green</td>
+                <td id="dist-ca">4.2</td>
+                <td><input type="text" id="rf-ca" placeholder="?.??"></td>
+                <td id="check-ca"></td>
+              </tr>
+              <tr>
+                <td><span class="color-dot" style="background:#8abd3a"></span>Chlorophyll b</td>
+                <td>Yellow-green</td>
+                <td id="dist-cb">3.0</td>
+                <td><input type="text" id="rf-cb" placeholder="?.??"></td>
+                <td id="check-cb"></td>
+              </tr>
+            </table>
+            <div class="btn-row"><button class="btn btn-primary" onclick="checkRfValues()">Check Answers</button></div>
+            <div class="quiz-feedback" id="rfFeedback" style="display:none;margin-top:10px;"></div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="a1GoStep(3)">← Back</button>
+            <button class="btn btn-primary" id="measureNextBtn" disabled onclick="a1GoStep(5)">Review Questions →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: Review Questions -->
+    <div class="step-panel" id="step5">
+      <div class="card" style="max-width:700px; margin:0 auto;">
+        <h2>📝 Review Questions</h2>
+        <div id="quizContainer"></div>
+        <div class="btn-row" style="margin-top:20px;">
+          <button class="btn btn-secondary" onclick="a1GoStep(4)">← Back</button>
+          <button class="btn btn-primary" id="finishBtn" style="display:none;" onclick="showCompletion()">See Final Score 🏆</button>
+        </div>
+      </div>
+      <div class="card" id="completionCard" style="display:none; max-width:700px; margin:20px auto 0; text-align:center;">
+        <h2 style="font-size:1.5rem;">🎉 Act 1 Complete!</h2>
+        <p style="font-size:1.1rem; margin:12px 0;">Final Score: <strong style="color:var(--sun-gold);" id="finalScore">0</strong> / <span id="maxScore">0</span></p>
+        <div id="starRating" style="font-size:2rem; margin:8px 0;"></div>
+        <p style="margin-top:10px;">You've extracted pigments, separated them with chromatography, calculated Rf values, and demonstrated understanding of polarity and pigment behavior.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ALL JAVASCRIPT
+     ============================================================ -->
+<script>
+// ================================================================
+// GLOBAL: Chapter switching & Score
+// ================================================================
+let activeChapter = 0;
+let score = 0;
+let maxPossible = 0;
+let a0Running = true;
+
+function switchChapter(n) {
+  // Ignore locked tabs
+  const tabs = document.querySelectorAll('.chapter-tab');
+  if (tabs[n].classList.contains('locked')) return;
+
+  activeChapter = n;
+  tabs.forEach((t, i) => t.classList.toggle('active', i === n));
+  document.querySelectorAll('.chapter-section').forEach((s, i) => {
+    s.classList.toggle('visible', i === n);
+  });
+
+  a0Running = (n === 0);
+  if (n === 0) {
+    a0Resize();
+    a0Frame();
+  }
+  if (n === 1) {
+    drawExtraction();
+    drawPaper();
+  }
+  window.scrollTo(0, 0);
+}
+
+function addScore(pts) {
+  score += pts;
+  maxPossible += pts;
+  document.getElementById('scoreVal').textContent = score;
+}
+function addMaxOnly(pts) { maxPossible += pts; }
+
+// ================================================================
+// ACT 0: INTERACTIVE PHOTOSYNTHESIS
+// ================================================================
+const a0Canvas = document.getElementById('plantCanvas');
+const a0Ctx = a0Canvas.getContext('2d');
+const hoverLabel = document.getElementById('hoverLabel');
+
+function a0Resize() {
+  const wrap = a0Canvas.parentElement;
+  a0Canvas.width = wrap.clientWidth * devicePixelRatio;
+  a0Canvas.height = wrap.clientHeight * devicePixelRatio;
+  a0Canvas.style.width = wrap.clientWidth + 'px';
+  a0Canvas.style.height = wrap.clientHeight + 'px';
+  a0Ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+}
+a0Resize();
+window.addEventListener('resize', () => { if (activeChapter === 0) a0Resize(); });
+
+const a0W = () => a0Canvas.width / devicePixelRatio;
+const a0H = () => a0Canvas.height / devicePixelRatio;
+
+let a0sun = 70, a0co2 = 60, a0water = 80, a0temp = 25;
+let a0rate = 0, a0time = 0;
+let a0totalO2 = 0, a0totalGluc = 0, a0totalWater = 0, a0totalCO2 = 0;
+let a0photons = [], a0co2P = [], a0waterP = [], a0o2P = [], a0glucP = [];
+
+const sunSlider = document.getElementById('sunSlider');
+const co2Slider = document.getElementById('co2Slider');
+const waterSlider = document.getElementById('waterSlider');
+const tempSlider = document.getElementById('tempSlider');
+
+function a0UpdateSliders() {
+  a0sun = +sunSlider.value;
+  a0co2 = +co2Slider.value;
+  a0water = +waterSlider.value;
+  a0temp = +tempSlider.value;
+  document.getElementById('sunVal').textContent = a0sun + '%';
+  document.getElementById('co2Val').textContent = a0co2 + '%';
+  document.getElementById('waterVal').textContent = a0water + '%';
+  document.getElementById('tempVal').textContent = a0temp + '°C';
+  a0UpdateRate();
+  a0UpdateInfo();
+}
+[sunSlider, co2Slider, waterSlider, tempSlider].forEach(s => s.addEventListener('input', a0UpdateSliders));
+
+function a0UpdateRate() {
+  const sf = a0sun/100, cf = a0co2/100, wf = a0water/100;
+  let tf;
+  if (a0temp < 5) tf = 0;
+  else if (a0temp <= 25) tf = (a0temp-5)/20;
+  else if (a0temp <= 35) tf = 1;
+  else if (a0temp <= 45) tf = (45-a0temp)/10;
+  else tf = 0;
+  tf = Math.max(0, tf);
+  a0rate = Math.min(sf, cf, wf) * tf;
+
+  const pct = Math.round(a0rate * 100);
+  document.getElementById('rateFill').style.width = pct + '%';
+  let label = 'None';
+  if (pct > 80) label = 'Very High';
+  else if (pct > 55) label = 'High';
+  else if (pct > 30) label = 'Moderate';
+  else if (pct > 10) label = 'Low';
+  else if (pct > 0) label = 'Very Low';
+  document.getElementById('rateText').textContent = label + ' (' + pct + '%)';
+}
+
+function a0UpdateInfo() {
+  const el = document.getElementById('infoText');
+  if (a0sun === 0) el.textContent = "No light → no photosynthesis. Light reactions need photons to excite chlorophyll electrons. The plant can only perform cellular respiration.";
+  else if (a0rate < 0.05) {
+    if (a0temp < 5 || a0temp > 45) el.textContent = "Extreme temperature! Enzymes (like RuBisCO) denature at high temps and slow near freezing. Reactions have stopped.";
+    else if (a0water < 10) el.textContent = "Without water, light reactions stall. H₂O is split for electrons and H⁺ ions. Stomata also close in drought, blocking CO₂.";
+    else el.textContent = "Conditions too poor for photosynthesis. The plant survives on cellular respiration alone.";
+  } else if (a0rate < 0.3) {
+    const lim = Math.min(a0sun/100, a0co2/100, a0water/100);
+    if (lim === a0sun/100) el.textContent = "Light is limiting. Fewer photons strike chlorophyll in the thylakoids → fewer excited electrons → slow light reactions.";
+    else if (lim === a0co2/100) el.textContent = "CO₂ is limiting. The Calvin cycle needs CO₂ to fix carbon into G3P. CO₂ enters through stomata on the leaf.";
+    else el.textContent = "Water is limiting. H₂O is split in the light reactions. Without it, the process stalls and stomata close.";
+  } else if (a0rate > 0.8) el.textContent = "Full speed! Photons → chlorophyll excitation → electron transport → ATP & NADPH → Calvin cycle fixes CO₂ → glucose. O₂ is released.";
+  else el.textContent = "Steady photosynthesis. Light captured by chlorophyll → water split → O₂ released → CO₂ fixed into glucose. Adjust sliders to explore limiting factors.";
+}
+
+class A0Particle {
+  constructor(x,y,vx,vy,color,size,life) {
+    this.x=x;this.y=y;this.vx=vx;this.vy=vy;this.color=color;this.size=size||3;this.life=life||200;this.maxLife=this.life;this.alive=true;
+  }
+  update() { this.x+=this.vx;this.y+=this.vy;this.life--;if(this.life<=0)this.alive=false; }
+  draw(c) {
+    c.globalAlpha=Math.min(1,this.life/(this.maxLife*0.3));
+    c.fillStyle=this.color;c.beginPath();c.arc(this.x,this.y,this.size,0,Math.PI*2);c.fill();
+    c.globalAlpha=1;
+  }
+}
+
+const a0Hotspots = [];
+function a0SetupHotspots() {
+  const w=a0W(),h=a0H();
+  a0Hotspots.length=0;
+  a0Hotspots.push({x:w*0.3,y:h*0.22,w:w*0.4,h:h*0.13,text:"🍃 Leaf — Primary photosynthesis site. Mesophyll cells packed with chloroplasts. Broad shape maximizes light capture."});
+  a0Hotspots.push({x:w*0.35,y:h*0.40,w:w*0.30,h:h*0.20,text:"🔬 Chloroplast — Thylakoids (light reactions) and stroma (Calvin cycle) work together to convert light energy to glucose."});
+  a0Hotspots.push({x:w*0.15,y:h*0.32,w:w*0.12,h:h*0.08,text:"🫁 Stomata — Tiny pores on leaf surface. CO₂ enters, O₂ exits. Guard cells control opening."});
+  a0Hotspots.push({x:w*0.35,y:h*0.80,w:w*0.30,h:h*0.15,text:"🌱 Roots — Absorb H₂O and minerals from soil. Water travels up through xylem to leaves."});
+}
+
+a0Canvas.addEventListener('mousemove', e => {
+  const rect=a0Canvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+  let found=false;
+  for(const h of a0Hotspots){
+    if(mx>=h.x&&mx<=h.x+h.w&&my>=h.y&&my<=h.y+h.h){
+      hoverLabel.style.opacity='1';
+      hoverLabel.style.left=Math.min(mx+12,a0W()-230)+'px';
+      hoverLabel.style.top=(my-10)+'px';
+      hoverLabel.textContent=h.text;
+      found=true;break;
+    }
+  }
+  if(!found)hoverLabel.style.opacity='0';
+});
+a0Canvas.addEventListener('mouseleave',()=>{hoverLabel.style.opacity='0';});
+
+function a0DrawSky(w,h) {
+  const b=a0sun/100;
+  const grad=a0Ctx.createLinearGradient(0,0,0,h*0.55);
+  grad.addColorStop(0,`rgba(${30+100*b},${60+140*b},${100+155*b},1)`);
+  grad.addColorStop(1,`rgba(${50+80*b},${90+120*b},${80+100*b},1)`);
+  a0Ctx.fillStyle=grad;a0Ctx.fillRect(0,0,w,h*0.55);
+
+  if(a0sun>0){
+    const sx=w*0.82,sy=h*0.10,sr=20+a0sun*0.15;
+    const glow=a0Ctx.createRadialGradient(sx,sy,0,sx,sy,sr*4);
+    glow.addColorStop(0,`rgba(255,220,80,${0.3*b})`);glow.addColorStop(1,'rgba(255,220,80,0)');
+    a0Ctx.fillStyle=glow;a0Ctx.fillRect(sx-sr*5,sy-sr*5,sr*10,sr*10);
+    a0Ctx.fillStyle=`rgba(255,230,100,${0.5+0.5*b})`;
+    a0Ctx.beginPath();a0Ctx.arc(sx,sy,sr,0,Math.PI*2);a0Ctx.fill();
+  }
+}
+
+function a0DrawSoil(w,h) {
+  const gy=h*0.63;
+  const grad=a0Ctx.createLinearGradient(0,gy,0,h);
+  grad.addColorStop(0,'#5a7a4a');grad.addColorStop(0.05,'#6b5520');
+  grad.addColorStop(0.3,'#5a3e0a');grad.addColorStop(1,'#3a2505');
+  a0Ctx.fillStyle=grad;a0Ctx.fillRect(0,gy,w,h-gy);
+  a0Ctx.strokeStyle='#4a8a3a';a0Ctx.lineWidth=1.5;
+  for(let i=0;i<40;i++){
+    const gx=(i/40)*w+Math.sin(i*7)*10;
+    a0Ctx.beginPath();a0Ctx.moveTo(gx,gy);
+    a0Ctx.quadraticCurveTo(gx+Math.sin(i*3)*5,gy-8-Math.random()*6,gx+Math.sin(i*5)*3,gy-14-Math.random()*4);
+    a0Ctx.stroke();
+  }
+}
+
+function a0DrawPlant(w,h) {
+  const bx=w*0.50,by=h*0.63;
+  a0Ctx.strokeStyle='#3a7a30';a0Ctx.lineWidth=6;a0Ctx.lineCap='round';
+  a0Ctx.beginPath();a0Ctx.moveTo(bx,by);
+  a0Ctx.quadraticCurveTo(bx-5,by-60,bx-2,by-130);
+  a0Ctx.quadraticCurveTo(bx,by-200,bx+3,by-250);a0Ctx.stroke();
+
+  const gv=Math.round(120+a0rate*80);
+  const lc=`rgb(40,${gv},50)`,ll=`rgb(70,${gv+30},80)`;
+  function leaf(cx,cy,a,sx,sy){
+    a0Ctx.save();a0Ctx.translate(cx,cy);a0Ctx.rotate(a);a0Ctx.scale(sx,sy);
+    const lg=a0Ctx.createLinearGradient(-40,0,40,0);
+    lg.addColorStop(0,lc);lg.addColorStop(0.5,ll);lg.addColorStop(1,lc);
+    a0Ctx.fillStyle=lg;a0Ctx.beginPath();a0Ctx.moveTo(0,0);
+    a0Ctx.bezierCurveTo(30,-20,55,-30,70,-10);a0Ctx.bezierCurveTo(55,5,30,10,0,0);a0Ctx.fill();
+    a0Ctx.strokeStyle='rgba(30,80,30,0.4)';a0Ctx.lineWidth=0.8;
+    a0Ctx.beginPath();a0Ctx.moveTo(2,-1);a0Ctx.lineTo(58,-6);a0Ctx.stroke();
+    a0Ctx.restore();
+  }
+  leaf(bx-5,by-240,-0.5,1.6,1.6);leaf(bx+5,by-230,0.3,1.4,1.4);
+  leaf(bx-8,by-200,-0.8,1.3,1.2);leaf(bx+8,by-190,0.6,1.2,1.1);
+  leaf(bx-3,by-160,-1.0,1.0,1.0);leaf(bx+6,by-150,0.9,1.0,0.9);
+
+  // Roots
+  a0Ctx.strokeStyle='#7a6530';
+  [{dx:-60,dy:80,cx:-20,cy:40},{dx:-40,dy:100,cx:-10,cy:50},{dx:0,dy:110,cx:5,cy:55},{dx:40,dy:95,cx:15,cy:48},{dx:55,dy:75,cx:25,cy:38}].forEach(r=>{
+    a0Ctx.lineWidth=2+Math.random();a0Ctx.beginPath();a0Ctx.moveTo(bx,by+5);
+    a0Ctx.quadraticCurveTo(bx+r.cx,by+5+r.cy,bx+r.dx,by+5+r.dy);a0Ctx.stroke();
+  });
+
+  // Stomata
+  for(let i=0;i<3;i++){
+    const sx=bx-50+15+i*25,sy=by-245+8+Math.sin(i)*4,op=a0rate*3;
+    a0Ctx.strokeStyle='rgba(30,100,40,0.6)';a0Ctx.lineWidth=1.5;
+    a0Ctx.beginPath();a0Ctx.ellipse(sx-2,sy,4,2+op,-0.2,0,Math.PI*2);a0Ctx.stroke();
+    a0Ctx.beginPath();a0Ctx.ellipse(sx+2,sy,4,2+op,0.2,0,Math.PI*2);a0Ctx.stroke();
+    if(a0rate>0.05){a0Ctx.fillStyle='rgba(0,0,0,0.3)';a0Ctx.beginPath();a0Ctx.ellipse(sx,sy,1+op*0.5,op,0,0,Math.PI*2);a0Ctx.fill();}
+  }
+}
+
+function a0RoundRect(c,x,y,w,h,r){
+  c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);
+  c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);
+  c.lineTo(x+r,y+h);c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath();
+}
+
+function a0DrawArrow(x1,y1,x2,y2,color,label){
+  const c=a0Ctx;c.strokeStyle=color;c.lineWidth=1.2;c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke();
+  const ang=Math.atan2(y2-y1,x2-x1);c.fillStyle=color;
+  c.beginPath();c.moveTo(x2,y2);c.lineTo(x2-6*Math.cos(ang-0.4),y2-6*Math.sin(ang-0.4));
+  c.lineTo(x2-6*Math.cos(ang+0.4),y2-6*Math.sin(ang+0.4));c.closePath();c.fill();
+  if(label){c.font='600 7px "DM Sans",sans-serif';c.fillText(label,(x1+x2)/2+3,(y1+y2)/2-3);}
+}
+
+function a0DrawChloroplast(w,h) {
+  const cx=w*0.50,cy=h*0.48,bw=w*0.28,bh=h*0.18,bx=cx-bw/2,by=cy-bh/2;
+  a0Ctx.strokeStyle='rgba(94,196,122,0.3)';a0Ctx.lineWidth=1;a0Ctx.setLineDash([4,4]);
+  a0Ctx.beginPath();a0Ctx.moveTo(cx,by);a0Ctx.lineTo(cx-20,by-40);a0Ctx.stroke();a0Ctx.setLineDash([]);
+
+  a0Ctx.fillStyle='rgba(10,40,25,0.88)';a0Ctx.strokeStyle='rgba(94,196,122,0.35)';a0Ctx.lineWidth=1.5;
+  a0RoundRect(a0Ctx,bx,by,bw,bh,12);a0Ctx.fill();a0Ctx.stroke();
+
+  a0Ctx.fillStyle='rgba(94,196,122,0.7)';a0Ctx.font='600 10px "DM Sans",sans-serif';
+  a0Ctx.fillText('CHLOROPLAST',bx+10,by+16);
+
+  const grana=[{x:bx+bw*0.18,y:by+bh*0.45},{x:bx+bw*0.42,y:by+bh*0.50},{x:bx+bw*0.66,y:by+bh*0.42}];
+  a0Ctx.strokeStyle='rgba(94,196,122,0.25)';a0Ctx.lineWidth=1;
+  a0Ctx.beginPath();a0Ctx.ellipse(cx,cy+bh*0.05,bw*0.42,bh*0.38,0,0,Math.PI*2);a0Ctx.stroke();
+
+  a0Ctx.fillStyle='rgba(200,240,210,0.3)';a0Ctx.font='500 8px "DM Sans",sans-serif';
+  a0Ctx.fillText('stroma (Calvin cycle)',bx+bw*0.50,by+bh*0.88);
+
+  grana.forEach((g,i)=>{
+    for(let d=0;d<4;d++){
+      const dy=g.y+d*7;
+      a0Ctx.fillStyle=a0rate>0.3?`rgba(94,196,122,${0.15+0.2*Math.sin(a0time*0.05+i+d)})`:'rgba(60,100,60,0.2)';
+      a0Ctx.beginPath();a0Ctx.ellipse(g.x,dy,18,4,0,0,Math.PI*2);a0Ctx.fill();
+      a0Ctx.strokeStyle='rgba(94,196,122,0.4)';a0Ctx.lineWidth=0.5;a0Ctx.stroke();
+    }
+  });
+
+  a0Ctx.fillStyle='rgba(245,197,66,0.6)';a0Ctx.font='500 7px "DM Sans",sans-serif';
+  a0Ctx.fillText('thylakoids',grana[0].x-14,grana[0].y-10);
+  a0Ctx.fillText('(light rxns)',grana[0].x-14,grana[0].y-2);
+
+  if(a0rate>0.1){
+    const aa=0.3+a0rate*0.5;
+    a0DrawArrow(bx+8,cy+bh*0.1,grana[0].x-20,grana[0].y,`rgba(58,143,212,${aa})`,'H₂O');
+    a0DrawArrow(grana[1].x,by+4,grana[1].x,grana[1].y-14,`rgba(245,197,66,${aa})`,'light');
+    a0DrawArrow(bx+bw-8,cy+bh*0.15,grana[2].x+22,grana[2].y+10,`rgba(155,126,200,${aa})`,'CO₂');
+    a0DrawArrow(grana[0].x,grana[0].y+20,bx+10,by+bh-8,`rgba(240,112,112,${aa})`,'O₂');
+    a0DrawArrow(grana[2].x+10,grana[2].y+22,bx+bw-12,by+bh-8,`rgba(232,168,62,${aa})`,'C₆H₁₂O₆');
+  }
+}
+
+function a0SpawnParticles(){
+  const w=a0W(),h=a0H(),bx=w*0.50,by=h*0.63;
+  if(a0sun>5&&Math.random()<a0sun/120){
+    a0photons.push(new A0Particle(bx-80+Math.random()*160,-5,(Math.random()-0.5)*0.3,1.5+Math.random(),'#f5c542',2.5+Math.random()*1.5,200));
+  }
+  if(a0co2>5&&Math.random()<a0co2/300){
+    a0co2P.push(new A0Particle(5+Math.random()*30,by-200-Math.random()*60,0.6+Math.random()*0.4,(Math.random()-0.5)*0.3,'#9b7ec8',3,250));
+  }
+  if(a0water>5&&Math.random()<a0water/250){
+    a0waterP.push(new A0Particle(bx-5+Math.random()*10,by+40+Math.random()*30,(Math.random()-0.5)*0.2,-0.8-Math.random()*0.5,'#3a8fd4',2.5,300));
+  }
+  if(a0rate>0.05&&Math.random()<a0rate*0.4){
+    a0o2P.push(new A0Particle(bx+(Math.random()-0.5)*60,by-220-Math.random()*30,(Math.random()-0.5)*0.5,-0.7-Math.random()*0.5,'#f07070',2.5+Math.random(),180));
+    a0totalO2+=0.1;
+  }
+  if(a0rate>0.1&&Math.random()<a0rate*0.12){
+    a0glucP.push(new A0Particle(bx+(Math.random()-0.5)*30,by-170+Math.random()*20,(Math.random()-0.5)*0.2,0.2+Math.random()*0.3,'#e8a83e',3.5,160));
+    a0totalGluc+=0.05;a0totalWater+=0.3;a0totalCO2+=0.15;
+  }
+}
+
+function a0Frame() {
+  if (!a0Running) return;
+  const w=a0W(),h=a0H();
+  a0time++;
+  a0Ctx.clearRect(0,0,w,h);
+  a0DrawSky(w,h);a0DrawSoil(w,h);a0DrawPlant(w,h);a0DrawChloroplast(w,h);
+  a0SpawnParticles();
+  [a0photons,a0co2P,a0waterP,a0o2P,a0glucP].forEach(arr=>{
+    for(let i=arr.length-1;i>=0;i--){arr[i].update();if(!arr[i].alive)arr.splice(i,1);}
+    arr.forEach(p=>p.draw(a0Ctx));
+  });
+  a0SetupHotspots();
+  if(a0time%10===0){
+    document.getElementById('o2Out').textContent=Math.floor(a0totalO2);
+    document.getElementById('glucOut').textContent=Math.floor(a0totalGluc);
+    document.getElementById('waterOut').textContent=Math.floor(a0totalWater);
+    document.getElementById('co2Out').textContent=Math.floor(a0totalCO2);
+  }
+  requestAnimationFrame(a0Frame);
+}
+
+a0UpdateSliders();
+a0Frame();
+
+// ================================================================
+// ACT 1: CHROMATOGRAPHY
+// ================================================================
+function a1GoStep(n) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('visible'));
+  document.getElementById('step' + n).classList.add('visible');
+  document.querySelectorAll('.step-pip').forEach((p, i) => {
+    p.classList.remove('active');
+    if (i < n) p.classList.add('done'); else p.classList.remove('done');
+    if (i === n) p.classList.add('active');
+  });
+  if (n === 3) drawChromInitial();
+  if (n === 4) drawMeasureCanvas();
+  if (n === 5) initQuiz();
+  window.scrollTo(0, 0);
+}
+
+// --- Extraction ---
+const extCanvas = document.getElementById('extractCanvas');
+const extCtx = extCanvas.getContext('2d');
+let extPhase = 0, grindCount = 0, grindPhase = 0;
+
+function drawExtraction() {
+  const c = extCtx, w = extCanvas.width, h = extCanvas.height;
+  c.clearRect(0,0,w,h);
+  c.fillStyle='#1a2a20';c.fillRect(0,0,w,h);
+  const bg=c.createLinearGradient(0,h*0.75,0,h);bg.addColorStop(0,'#3a3530');bg.addColorStop(1,'#2a2520');
+  c.fillStyle=bg;c.fillRect(0,h*0.72,w,h*0.28);
+  c.strokeStyle='#4a4540';c.lineWidth=1;c.beginPath();c.moveTo(0,h*0.72);c.lineTo(w,h*0.72);c.stroke();
+
+  const mx=200,my=h*0.62;
+  // Mortar
+  c.fillStyle='#888';c.beginPath();c.ellipse(mx,my+20,70,20,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#aaa';c.beginPath();c.ellipse(mx,my,70,25,0,Math.PI,Math.PI*2);c.fill();
+  c.fillStyle='#999';c.beginPath();c.ellipse(mx,my,70,25,0,0,Math.PI);c.fill();
+  c.fillStyle='#666';c.beginPath();c.ellipse(mx,my,55,18,0,0,Math.PI*2);c.fill();
+
+  if(extPhase>=1){
+    const gi=Math.min(1,grindCount/8);
+    c.fillStyle=`rgba(40,${100+gi*80},50,${0.5+gi*0.5})`;
+    c.beginPath();c.ellipse(mx,my,48*(0.4+gi*0.6),14*(0.4+gi*0.6),0,0,Math.PI*2);c.fill();
+    c.fillStyle='rgba(200,180,140,0.5)';for(let i=0;i<12;i++)c.fillRect(mx-30+Math.sin(i*5)*25,my-8+Math.cos(i*3)*8,2,2);
+  }
+  if(extPhase>=2){c.fillStyle='rgba(30,120,50,0.7)';c.beginPath();c.ellipse(mx,my-2,52,16,0,0,Math.PI*2);c.fill();}
+
+  if(extPhase>=1&&extPhase<3){
+    const po=Math.sin(grindPhase*0.3)*10;c.fillStyle='#bbb';c.save();c.translate(mx+po,my-15);
+    c.rotate(-0.3+Math.sin(grindPhase*0.3)*0.15);c.fillRect(-6,-60,12,70);
+    c.beginPath();c.arc(0,10,10,0,Math.PI*2);c.fill();c.restore();
+  }
+
+  if(extPhase===0){
+    for(let i=0;i<5;i++){c.fillStyle=`rgb(${40+i*5},${110+i*10},${40+i*3})`;c.beginPath();c.ellipse(80+Math.sin(i*2.5)*20,h*0.55+Math.cos(i*1.8)*10,22,12,i*0.3,0,Math.PI*2);c.fill();}
+    c.fillStyle='rgba(245,197,66,0.9)';c.font='600 13px "DM Sans",sans-serif';c.fillText('Click leaves →',20,h*0.45);
+  }
+  if(extPhase>=1){
+    // Acetone bottle
+    const bx=380,by2=h*0.52;c.fillStyle='#556';c.fillRect(bx-18,by2,36,60);c.fillRect(bx-8,by2-16,16,18);
+    c.fillStyle='#333';c.fillRect(bx-10,by2-20,20,8);
+    c.fillStyle='rgba(200,200,210,0.3)';c.fillRect(bx-16,by2+60*(1-(extPhase>=2?0.5:1)),32,60*(extPhase>=2?0.5:1));
+    c.fillStyle='#ccc';c.font='500 9px "DM Sans",sans-serif';c.textAlign='center';c.fillText('Acetone',bx,by2+35);c.textAlign='left';
+    if(extPhase===1&&grindCount>=8){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText('← Click acetone',420,h*0.45);}
+  }
+  if(extPhase>=3){
+    // Test tube
+    const tx=500,ty=h*0.40;c.strokeStyle='rgba(200,200,220,0.4)';c.lineWidth=2;
+    c.beginPath();c.moveTo(tx-10,ty);c.lineTo(tx-10,ty+80);c.arc(tx,ty+80,10,Math.PI,0);c.lineTo(tx+10,ty);c.stroke();
+    if(extPhase>=3){
+      c.fillStyle='rgba(30,130,50,0.8)';const lh=80*0.6;
+      c.beginPath();c.moveTo(tx-8,ty+85-lh);c.lineTo(tx-8,ty+78);c.arc(tx,ty+78,8,Math.PI,0);c.lineTo(tx+8,ty+85-lh);c.closePath();c.fill();
+    }
+    if(extPhase===3){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText('Click tube →',420,h*0.30);}
+  }
+  if(extPhase===1&&grindCount<8){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText(`Grind: Click mortar (${grindCount}/8)`,mx-70,my-45);}
+}
+
+extCanvas.addEventListener('click', e => {
+  const rect=extCanvas.getBoundingClientRect();
+  const sx=extCanvas.width/rect.width,sy=extCanvas.height/rect.height;
+  const mx2=(e.clientX-rect.left)*sx, my2=(e.clientY-rect.top)*sy;
+
+  if(extPhase===0&&mx2<160){
+    extPhase=1;document.getElementById('ext-step1').style.opacity='0.4';
+    document.getElementById('ext-step1').innerHTML='<strong>Step 1:</strong> ✅ Leaves torn into mortar';
+    document.getElementById('ext-step2').style.opacity='1';addScore(5);drawExtraction();
+  } else if(extPhase===1&&grindCount<8&&mx2>130&&mx2<270){
+    grindCount++;grindPhase++;
+    if(grindCount>=8){
+      document.getElementById('ext-step2').style.opacity='0.4';
+      document.getElementById('ext-step2').innerHTML='<strong>Step 2:</strong> ✅ Ground to a fine pulp';
+      document.getElementById('ext-step3').style.opacity='1';addScore(5);
+    }
+    drawExtraction();
+  } else if(extPhase===1&&grindCount>=8&&mx2>360&&mx2<420){
+    extPhase=2;setTimeout(()=>{extPhase=3;drawExtraction();},600);
+    document.getElementById('ext-step3').style.opacity='0.4';
+    document.getElementById('ext-step3').innerHTML='<strong>Step 3:</strong> ✅ Acetone added';
+    document.getElementById('ext-step4').style.opacity='1';addScore(5);drawExtraction();
+  } else if(extPhase===3&&mx2>470){
+    extPhase=4;document.getElementById('ext-step4').style.opacity='0.4';
+    document.getElementById('ext-step4').innerHTML='<strong>Step 4:</strong> ✅ Extract collected!';
+    document.getElementById('extNextBtn').disabled=false;addScore(5);drawExtraction();
+  }
+});
+
+// --- UV ---
+function showUV(){document.getElementById('uvOverlay').classList.add('show');setTimeout(()=>{document.getElementById('uvQuestion').style.display='block';},1500);}
+function closeUV(){document.getElementById('uvOverlay').classList.remove('show');}
+function answerUV(btn,correct){
+  document.querySelectorAll('#uvQuestion .quiz-option').forEach(b=>{b.disabled=true;b.style.pointerEvents='none';});
+  const fb=document.getElementById('uvFeedback');fb.style.display='block';
+  if(correct){btn.classList.add('correct');fb.className='quiz-feedback good';fb.textContent='✅ Correct! Chlorophyll absorbs UV, exciting electrons. Energy released as red fluorescence (~680 nm).';addScore(10);}
+  else{btn.classList.add('wrong');document.querySelectorAll('#uvQuestion .quiz-option')[1].classList.add('correct');fb.className='quiz-feedback bad';fb.textContent='❌ The correct answer: chlorophyll absorbs UV, exciting electrons which release energy as red fluorescence.';addMaxOnly(10);}
+  document.getElementById('uvNextBtn').disabled=false;
+}
+
+// --- Paper Setup ---
+const paperCanvas=document.getElementById('paperCanvas'),paperCtx=paperCanvas.getContext('2d');
+let paperPhase=0,pigmentDots=0;
+
+function drawPaper(){
+  const c=paperCtx,w=paperCanvas.width,h=paperCanvas.height;
+  c.clearRect(0,0,w,h);c.fillStyle='#1a2a20';c.fillRect(0,0,w,h);
+  c.fillStyle='#3a3530';c.fillRect(0,h*0.78,w,h*0.22);
+
+  if(paperPhase<3){
+    const px=150,py=40,pw=300,ph=340;c.fillStyle='#f0ece0';c.fillRect(px,py,pw,ph);
+    c.strokeStyle='rgba(180,175,160,0.3)';c.lineWidth=0.5;
+    for(let i=0;i<12;i++){const gy=py+(i+1)*(ph/12);c.beginPath();c.moveTo(px,gy);c.lineTo(px+pw,gy);c.stroke();}
+
+    if(paperPhase>=1){
+      const lineY=py+ph-45;c.strokeStyle='#888';c.lineWidth=1.5;c.setLineDash([]);
+      c.beginPath();c.moveTo(px+15,lineY);c.lineTo(px+pw-15,lineY);c.stroke();
+      c.fillStyle='#888';c.font='500 10px "DM Sans",sans-serif';c.fillText('origin line',px+pw+8,lineY+4);
+      if(paperPhase>=1){
+        for(let i=0;i<pigmentDots;i++){c.fillStyle='rgba(30,100,40,0.8)';c.beginPath();c.arc(px+30+i*28,lineY,4,0,Math.PI*2);c.fill();}
+      }
+    }
+    if(paperPhase===0){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 13px "DM Sans",sans-serif';c.fillText('Click to draw pencil line',px+40,py+ph/2);}
+    if(paperPhase===1&&pigmentDots<8){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText(`Click to apply pigment (${pigmentDots}/8)`,px+20,py+ph-70);}
+    if(paperPhase===2&&pigmentDots>=8){c.fillStyle='rgba(245,197,66,0.9)';c.font='600 12px "DM Sans",sans-serif';c.fillText('Click to roll paper & place in jar',px+30,py+20);}
+  }
+
+  if(paperPhase>=3){
+    const jx=220,jy=50,jw=160,jh=320;
+    c.fillStyle='rgba(200,200,210,0.08)';c.strokeStyle='rgba(200,200,220,0.25)';c.lineWidth=2;
+    c.fillRect(jx,jy,jw,jh);c.strokeRect(jx,jy,jw,jh);
+    c.fillStyle='#555';c.fillRect(jx-4,jy-10,jw+8,14);
+    c.fillStyle='rgba(220,215,190,0.15)';c.fillRect(jx+2,jy+jh-30,jw-4,28);
+    c.fillStyle='#e8e4d8';c.fillRect(jx+jw/2-30,jy+15,60,jh-30);
+    c.strokeStyle='rgba(150,145,130,0.3)';c.strokeRect(jx+jw/2-30,jy+15,60,jh-30);
+    const oY=jy+jh-50;c.strokeStyle='#888';c.lineWidth=1;c.beginPath();c.moveTo(jx+jw/2-28,oY);c.lineTo(jx+jw/2+28,oY);c.stroke();
+    c.fillStyle='rgba(30,100,40,0.7)';c.fillRect(jx+jw/2-25,oY-2,50,4);
+    c.fillStyle='rgba(94,196,122,0.8)';c.font='600 14px "DM Sans",sans-serif';c.fillText('✓ Ready to run!',jx+jw/2-50,jy+jh/2);
+  }
+}
+
+paperCanvas.addEventListener('click', e => {
+  if(paperPhase===0){
+    paperPhase=1;document.getElementById('paper-step1').innerHTML='<strong>Step 1:</strong> ✅ Pencil line drawn';
+    document.getElementById('paper-step1').style.opacity='0.4';document.getElementById('paper-step2').style.opacity='1';addScore(5);drawPaper();
+  } else if(paperPhase===1&&pigmentDots<8){
+    pigmentDots++;
+    if(pigmentDots>=8){paperPhase=2;document.getElementById('paper-step2').innerHTML='<strong>Step 2:</strong> ✅ Pigment applied';document.getElementById('paper-step2').style.opacity='0.4';document.getElementById('paper-step3').style.opacity='1';addScore(5);}
+    drawPaper();
+  } else if(paperPhase>=2&&pigmentDots>=8){
+    paperPhase=3;document.getElementById('paper-step3').innerHTML='<strong>Step 3:</strong> ✅ Paper in jar';
+    document.getElementById('paper-step3').style.opacity='0.4';document.getElementById('paperNextBtn').disabled=false;addScore(5);drawPaper();
+  }
+});
+
+// --- Chromatography Run ---
+const chromCanvas=document.getElementById('chromCanvas'),chromCtx=chromCanvas.getContext('2d');
+let chromProgress=0,chromRunning=false,chromDone=false;
+const pigments=[
+  {name:'β-carotene',color:'#e8873a',rf:0.95,bw:0.06},
+  {name:'Xanthophylls',color:'#d4c44a',rf:0.68,bw:0.07},
+  {name:'Chlorophyll a',color:'#3a8a7a',rf:0.49,bw:0.06},
+  {name:'Chlorophyll b',color:'#8abd3a',rf:0.35,bw:0.05},
+];
+const solventDist=(8.2+Math.random()*0.6).toFixed(1);
+const pigmentDists2=pigments.map(p=>(p.rf*solventDist).toFixed(1));
+
+function drawChromInitial(){drawChrom(chromProgress);}
+
+function drawChrom(progress){
+  const c=chromCtx,w=chromCanvas.width,h=chromCanvas.height;c.clearRect(0,0,w,h);
+  c.fillStyle='#151f1a';c.fillRect(0,0,w,h);
+  c.strokeStyle='#3a4a40';c.lineWidth=3;c.strokeRect(20,10,w-40,h-30);
+  c.fillStyle='rgba(200,200,200,0.03)';c.fillRect(20,10,w-40,h-30);
+
+  const jx=w/2-80,jy=50,jw=160,jh=380;
+  c.fillStyle='rgba(200,200,210,0.06)';c.strokeStyle='rgba(200,200,220,0.2)';c.lineWidth=2;
+  c.fillRect(jx,jy,jw,jh);c.strokeRect(jx,jy,jw,jh);
+  c.fillStyle='#666';c.fillRect(jx-4,jy-12,jw+8,16);c.fillStyle='#777';c.fillRect(jx-2,jy-10,jw+4,4);
+  c.fillStyle='rgba(210,205,185,0.12)';c.fillRect(jx+2,jy+jh-25,jw-4,23);
+
+  const pX=jx+jw/2-35,pW=70,pT=jy+20,pB=jy+jh-10,pH2=pB-pT;
+  c.fillStyle='#ede8d8';c.fillRect(pX,pT,pW,pH2);
+  const oY=pB-35;c.strokeStyle='#999';c.lineWidth=1;c.setLineDash([3,3]);
+  c.beginPath();c.moveTo(pX,oY);c.lineTo(pX+pW,oY);c.stroke();c.setLineDash([]);
+  c.fillStyle='rgba(30,100,40,0.6)';c.fillRect(pX+5,oY-2,pW-10,4);
+
+  const maxT=oY-pT-20,sfY=oY-maxT*progress;
+  if(progress>0){
+    c.fillStyle='rgba(200,195,175,0.12)';c.fillRect(pX,sfY,pW,oY-sfY);
+    c.strokeStyle='rgba(180,175,155,0.6)';c.lineWidth=1.5;c.beginPath();c.moveTo(pX,sfY);c.lineTo(pX+pW,sfY);c.stroke();
+    if(progress>0.15){c.fillStyle='rgba(180,175,155,0.5)';c.font='500 9px "DM Sans",sans-serif';c.fillText('solvent front',pX+pW+8,sfY+4);}
+    pigments.forEach(p=>{
+      const bp=Math.min(1,progress/(p.rf*0.8+0.2));
+      if(bp>0.1){const bY=oY-maxT*p.rf*progress;c.fillStyle=p.color;c.globalAlpha=Math.min(0.85,bp);
+      c.beginPath();c.ellipse(pX+pW/2,bY,pW/2-4,p.bw*maxT/2+3,0,0,Math.PI*2);c.fill();c.globalAlpha=1;}
+    });
+  }
+  c.fillStyle='#999';c.font='500 10px "DM Sans",sans-serif';c.fillText('origin',pX+pW+8,oY+4);
+  if(chromRunning||chromDone){const mins=Math.floor(progress*20);c.fillStyle='rgba(255,255,255,0.6)';c.font='500 12px "DM Sans",sans-serif';c.fillText(`Time: ${mins} min`,jx+10,jy+jh+20);}
+}
+
+function startChromatography(){
+  if(chromRunning||chromDone)return;chromRunning=true;
+  document.getElementById('startChromBtn').disabled=true;
+  document.getElementById('chromStatus').textContent='Separation in progress...';
+  function anim(){chromProgress+=0.003;drawChrom(Math.min(1,chromProgress));
+    if(chromProgress<1)requestAnimationFrame(anim);
+    else{chromRunning=false;chromDone=true;document.getElementById('chromStatus').textContent='✅ Separation complete! 4 distinct bands visible.';
+    document.getElementById('chromLegend').style.display='block';document.getElementById('chromNextBtn').disabled=false;addScore(10);}
+  }anim();
+}
+
+// --- Measure Rf ---
+const measureCanvas=document.getElementById('measureCanvas'),measureCtx=measureCanvas.getContext('2d');
+
+function drawMeasureCanvas(){
+  document.getElementById('solventDist').textContent=solventDist;
+  ['bc','xa','ca','cb'].forEach((id,i)=>document.getElementById('dist-'+id).textContent=pigmentDists2[i]);
+
+  const c=measureCtx,w=measureCanvas.width,h=measureCanvas.height;c.clearRect(0,0,w,h);
+  c.fillStyle='#151f1a';c.fillRect(0,0,w,h);
+  const px=120,py=30,pw=280,ph=420;c.fillStyle='#ede8d8';c.fillRect(px,py,pw,ph);
+
+  const oY=py+ph-35,maxPx=oY-py-20,cmPx=maxPx/parseFloat(solventDist);
+  c.fillStyle='#eee8d0';c.fillRect(px-50,py,45,ph);c.strokeStyle='#aaa';c.lineWidth=1;
+  for(let cm=0;cm<=parseFloat(solventDist)+1;cm++){const ry=oY-cm*cmPx;if(ry<py)break;
+    c.beginPath();c.moveTo(px-50,ry);c.lineTo(px-8,ry);c.stroke();
+    c.fillStyle='#777';c.font='500 10px "DM Sans",sans-serif';c.fillText(cm+' cm',px-48,ry+3);
+    const hY=ry-cmPx*0.5;if(hY>py){c.beginPath();c.moveTo(px-30,hY);c.lineTo(px-8,hY);c.stroke();}
+  }
+
+  c.strokeStyle='#888';c.lineWidth=1.5;c.setLineDash([4,4]);
+  c.beginPath();c.moveTo(px,oY);c.lineTo(px+pw,oY);c.stroke();c.setLineDash([]);
+  c.fillStyle='#888';c.font='500 10px "DM Sans",sans-serif';c.fillText('origin',px+pw+8,oY+4);
+
+  const sfY=oY-parseFloat(solventDist)*cmPx;
+  c.strokeStyle='rgba(180,175,155,0.7)';c.lineWidth=1.5;c.setLineDash([4,4]);
+  c.beginPath();c.moveTo(px,sfY);c.lineTo(px+pw,sfY);c.stroke();c.setLineDash([]);
+  c.fillStyle='rgba(180,175,155,0.7)';c.fillText('solvent front',px+pw+8,sfY+4);
+
+  const cols=['#e8873a','#d4c44a','#3a8a7a','#8abd3a'],names=['β-carotene','Xanthophylls','Chl a','Chl b'];
+  pigmentDists2.forEach((d,i)=>{
+    const bY=oY-parseFloat(d)*cmPx;c.fillStyle=cols[i];c.globalAlpha=0.85;
+    c.beginPath();c.ellipse(px+pw/2,bY,pw/2-15,8+i*1.5,0,0,Math.PI*2);c.fill();c.globalAlpha=1;
+    c.strokeStyle='rgba(255,255,255,0.3)';c.lineWidth=0.5;c.setLineDash([2,3]);
+    c.beginPath();c.moveTo(px+pw,bY);c.lineTo(px+pw+45,bY);c.stroke();c.setLineDash([]);
+    c.fillStyle=cols[i];c.font='600 10px "DM Sans",sans-serif';c.fillText(names[i],px+pw+8,bY-6);
+    c.fillStyle='rgba(255,255,255,0.5)';c.font='500 9px "DM Sans",sans-serif';c.fillText(d+' cm',px+pw+8,bY+6);
+  });
+  c.fillStyle='rgba(255,255,255,0.35)';c.font='500 10px "DM Sans",sans-serif';c.fillText('Rf = pigment dist ÷ solvent dist',px+10,py+18);
+}
+
+function checkRfValues(){
+  const correct=pigmentDists2.map(d=>(parseFloat(d)/parseFloat(solventDist)).toFixed(2));
+  const ids=['bc','xa','ca','cb'];let allOk=true,cc=0;
+  ids.forEach((id,i)=>{
+    const inp=document.getElementById('rf-'+id),chk=document.getElementById('check-'+id);
+    const uv=parseFloat(inp.value),cv=parseFloat(correct[i]);
+    if(!isNaN(uv)&&Math.abs(uv-cv)<0.05){chk.textContent='✅';chk.style.color='#5ec47a';inp.style.borderColor='#5ec47a';cc++;}
+    else{chk.textContent='❌ '+correct[i];chk.style.color='#f07070';inp.style.borderColor='#f07070';allOk=false;}
+  });
+  const fb=document.getElementById('rfFeedback');fb.style.display='block';
+  if(allOk){fb.className='quiz-feedback good';fb.textContent='🎉 All Rf values correct! β-carotene highest (least polar), Chlorophyll b lowest (most polar).';addScore(20);}
+  else if(cc>0){fb.className='quiz-feedback bad';fb.textContent=`${cc}/4 correct. Rf = distance pigment ÷ distance solvent. Values always between 0 and 1.`;addScore(cc*5);addMaxOnly((4-cc)*5);}
+  else{fb.className='quiz-feedback bad';fb.textContent=`Divide each pigment distance by ${solventDist}. Ex: β-carotene = ${pigmentDists2[0]} ÷ ${solventDist} = ${correct[0]}`;addMaxOnly(20);}
+  document.getElementById('measureNextBtn').disabled=false;
+}
+
+// --- Review Quiz ---
+const quizQs=[
+  {q:"Which plant pigments are most polar?",opts:["β-carotene and xanthophylls","Chlorophyll a and chlorophyll b","Carotenoids and xanthophylls","Chlorophyll a and β-carotene"],correct:1,ex:"Chlorophyll a and b are most polar — they travel the shortest distance, attracted to the polar cellulose paper."},
+  {q:"Which pigments are least polar?",opts:["Chlorophyll b","Chlorophyll a","Xanthophylls","β-carotene"],correct:3,ex:"β-carotene is least polar, with the highest affinity for the nonpolar solvent, traveling farthest up the paper."},
+  {q:"How does polarity affect pigment movement on the chromatography paper?",opts:["More polar pigments travel farther (dissolve better in solvent)","Less polar pigments travel farther (more affinity for nonpolar solvent)","Polarity has no effect; only molecular weight matters","More polar pigments travel farther (repelled by paper)"],correct:1,ex:"'Like dissolves like.' Nonpolar pigments travel far with the nonpolar solvent. Polar pigments stick to the polar paper."},
+  {q:"What does Rf stand for, and what does a high Rf value indicate?",opts:["Reaction factor — more reaction with the paper","Retention factor — traveled farther, less polar","Reflection factor — reflects more light","Retention factor — retained more on the paper"],correct:1,ex:"Rf = Retention factor = pigment distance ÷ solvent distance. High Rf → traveled far → less polar."},
+  {q:"Solution A moves 4 cm, Solution B moves 4.5 cm, solvent moves 10 cm. Which is more polar?",opts:["Solution B (moved farther)","Solution A (moved less — more attracted to polar paper)","Same polarity","Cannot determine"],correct:1,ex:"Solution A (Rf=0.40) is more polar than Solution B (Rf=0.45). It moved less due to greater affinity for the polar stationary phase."}
+];
+let quizDone=0;
+function initQuiz(){
+  const ct=document.getElementById('quizContainer');if(ct.children.length>0)return;
+  quizQs.forEach((qq,qi)=>{
+    const div=document.createElement('div');div.style.cssText='margin-top:20px;padding-top:16px;'+(qi>0?'border-top:1px solid rgba(255,255,255,0.06);':'');
+    const qt=document.createElement('p');qt.style.cssText='font-size:0.88rem;font-weight:600;margin-bottom:10px;color:var(--text);';qt.textContent=`${qi+1}. ${qq.q}`;div.appendChild(qt);
+    qq.opts.forEach((opt,oi)=>{const btn=document.createElement('button');btn.className='quiz-option';btn.textContent=opt;btn.id=`q${qi}o${oi}`;
+      btn.onclick=()=>{
+        qq.opts.forEach((_,j)=>{document.getElementById(`q${qi}o${j}`).style.pointerEvents='none';});
+        const fb2=document.getElementById(`qfb${qi}`);fb2.style.display='block';
+        if(oi===qq.correct){btn.classList.add('correct');fb2.className='quiz-feedback good';fb2.textContent='✅ '+qq.ex;addScore(10);}
+        else{btn.classList.add('wrong');document.getElementById(`q${qi}o${qq.correct}`).classList.add('correct');fb2.className='quiz-feedback bad';fb2.textContent='❌ '+qq.ex;addMaxOnly(10);}
+        quizDone++;if(quizDone>=quizQs.length)document.getElementById('finishBtn').style.display='inline-flex';
+      };div.appendChild(btn);
+    });
+    const fb3=document.createElement('div');fb3.className='quiz-feedback';fb3.id=`qfb${qi}`;fb3.style.display='none';div.appendChild(fb3);
+    ct.appendChild(div);
+  });
+}
+
+function showCompletion(){
+  document.getElementById('completionCard').style.display='block';
+  document.getElementById('finalScore').textContent=score;document.getElementById('maxScore').textContent=maxPossible;
+  const pct=maxPossible>0?score/maxPossible:0;
+  document.getElementById('starRating').textContent=pct>0.9?'⭐⭐⭐':pct>0.7?'⭐⭐':'⭐';
+  document.getElementById('completionCard').scrollIntoView({behavior:'smooth'});
+}
+
+// Initial draws
+drawExtraction();
+drawPaper();
+drawChromInitial();
+</script>
+</body>
+</html>
